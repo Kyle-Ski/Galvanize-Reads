@@ -8,7 +8,7 @@ class AddBook extends Component {
         return (
             <Container >
                 <Divider />
-                <Form className={warningState ? 'warning' : ''} onSubmit={submit}>
+                <Form className={warningState} onSubmit={submit}>
                     <Form.Group widths='equal'>
                         <Form.Field onChange={title} control={Input} value={titleValue} label='Title' placeholder='Title' />
                         <Form.Field onChange={genre} control={Input} value={genreValue} label='Genre' placeholder='Genre' />
@@ -16,15 +16,14 @@ class AddBook extends Component {
                     </Form.Group>
 
                     <Form.Group inline>
-                        <label>Quantity</label>
                     </Form.Group>
                     <Form.Field onChange={description} control={TextArea} value={descriptionValue} label='Description' placeholder='Summary...' />
-                    <Form.Field control={Checkbox} label='I agree to the Terms and Conditions' />
+                    <Message success header='Book Submitted' content="You have added a book to the Library!" />
                     <Message
                         warning
                         header='Could you check something!'
                         list={[
-                            'That e-mail has been subscribed, but you have not yet clicked the verification link in your e-mail.',
+                            'You may have not filled out all the fields.',
                         ]}
                     />
                     <Form.Field color='green' control={Button}>Add Book</Form.Field>

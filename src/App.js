@@ -20,7 +20,8 @@ class App extends Component {
     bookGenre: '',
     bookUrl: '',
     bookDescription: '',
-    warning: null
+    warning: null,
+    bookToDelete: ''
   }
 
   structureDropdown = () => {
@@ -56,7 +57,7 @@ class App extends Component {
       coverURL: this.state.bookUrl
     }
     if (!data.title || !data.genre || !data.description || !data.coverURL){
-        alert('Please fill out all fields')
+        return this.setState({warning: 'warning'})
     } else {
       fetch(booksUrl, {
         method: 'POST',
@@ -69,21 +70,26 @@ class App extends Component {
       .then(res => res.json())
       .then(res => {
         if(res.error){
-          this.setState({warning: true})
+          this.setState({warning: 'warning'})
         } else {
-          alert('success')
           this.setState({
             books: [...this.state.books, res.book], 
             bookTitle: '',
             bookGenre: '',
             bookDescription: '',
             bookUrl: '',
-            warning: null
+            warning: 'success'
           })
         }
       })
+      .then(this.structureDropdown)
         
     }
+  }
+
+  bookDelete = (e) => {
+    e.preventDefault()
+    console.log('delete', e.target.innerText)
   }
 
   getTitle = (e) => {
@@ -136,6 +142,7 @@ render() {
           coverValue={this.state.bookUrl} 
           descriptionValue={this.state.bookDescription}
           warning={this.state.warning}
+          bookDelete={this.bookDelete}
           />}
         {books ? <Library books={this.state.books}/> : <Loader active />}
        

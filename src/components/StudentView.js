@@ -10,7 +10,6 @@ class StudentView extends Component {
         return(
             <div className="App">
                 <NavBar dropdownOptions={dropdownOptions} handleItemClick={handleItemClick} teacherLogin={teacherLogin} activeItem={activeItem}/>
-                {books ? <Library books={books}/> : ''}
             </div>
         )
     }
