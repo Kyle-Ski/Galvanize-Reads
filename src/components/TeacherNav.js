@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Menu, Segment, Header, Icon, Dropdown } from 'semantic-ui-react'
 
-const TeacherNav = ({ activeItem, handleItemClick, books, teacherLogin, dropdownOptions }) => {
+class TeacherNav extends Component {
 
-
+      render(){
+        const { activeItem, handleItemClick, books, teacherLogin, dropdownOptions, showAdd } = this.props
         return (
             <Segment inverted>
             <Menu inverted pointing secondary >
@@ -14,7 +15,7 @@ const TeacherNav = ({ activeItem, handleItemClick, books, teacherLogin, dropdown
               <Menu.Item
                 name='Add Book'
                 active={activeItem === 'Add Book'}
-                onClick={handleItemClick}
+                onClick={showAdd}
                 color='olive'
               />
               <Menu.Item
@@ -23,14 +24,18 @@ const TeacherNav = ({ activeItem, handleItemClick, books, teacherLogin, dropdown
                 onClick={handleItemClick}
                 color='olive'
               />
-            <Menu.Item>
-              <Dropdown icon='search' placeholder='Search For a Book' search selection options={dropdownOptions} />
-            </Menu.Item>
+              <Menu.Item>
+                <Dropdown icon='search' placeholder='Search Books' search selection options={dropdownOptions} />
+              </Menu.Item>
+              <Menu.Item>
+                <Dropdown icon='search' placeholder='Search Authors' search selection options={dropdownOptions} />
+              </Menu.Item>
                 </Menu.Menu>
             </Menu>
           </Segment>
     
         )
+      }
     
 }
 

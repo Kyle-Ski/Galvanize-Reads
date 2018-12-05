@@ -15,7 +15,11 @@ class App extends Component {
     authors: '',
     cat: 'meow',
     isTeacher: true,
-    dropdownOptions: ''
+    dropdownOptions: '',
+    bookTitle: '',
+    bookGenre: '',
+    bookUrl: '',
+    bookDescription: ''
   }
 
   structureDropdown = () => {
@@ -41,6 +45,61 @@ class App extends Component {
       })
   }
 
+  bookSubmit = (e) => {
+    e.preventDefault()
+    console.log('submit')
+    const data = {
+      title: this.state.bookTitle,
+      genre: this.state.bookGenre,
+      description: this.state.bookDescription,
+      coverURL: this.state.bookUrl
+    }
+    if (!data.title || !data.genre || !data.description || !data.coverURL){
+        alert('Please fill out all fields')
+    } else {
+      fetch(booksUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        if(res.error){
+          alert('post error')
+        } else {
+          alert('success')
+          this.setState({
+            books: [...this.state.books, res.book], 
+            bookTitle: '',
+            bookGenre: '',
+            bookDescription: '',
+            bookUrl: ''
+          })
+        }
+      })
+        
+    }
+  }
+
+  getTitle = (e) => {
+    this.setState({bookTitle: e.target.value})
+  }
+  
+  getGenre = (e) => {
+    this.setState({bookGenre : e.target.value})
+  }
+
+  getBookUrl = (e) => {
+    this.setState({bookUrl : e.target.value})
+  }
+
+  getDescription = (e) => {
+    this.setState({bookDescription : e.target.value})
+  }
+
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   teacherLogin = (e, { name }) => {
@@ -54,7 +113,27 @@ render() {
   const {books, isTeacher, dropdownOptions} = this.state;
     return (
       <div className="App">
-        {isTeacher ? <StudentView dropdownOptions={this.state.dropdownOptions} handleItemClick={this.handleItemClick} teacherLogin={this.teacherLogin} activeItem={this.state.activeItem}/> : <TeacherView dropdownOptions={this.state.dropdownOptions} handleItemClick={this.handleItemClick} teacherLogin={this.teacherLogin} activeItem={this.state.activeItem}/>}
+        {isTeacher ? <StudentView 
+        dropdownOptions={this.state.dropdownOptions} 
+        handleItemClick={this.handleItemClick} 
+        teacherLogin={this.teacherLogin} 
+        activeItem={this.state.activeItem}
+        /> : 
+        <TeacherView 
+          title={this.getTitle} 
+          genre={this.getGenre} 
+          cover={this.getBookUrl} 
+          description={this.getDescription} 
+          bookSubmit={this.bookSubmit} 
+          dropdownOptions={this.state.dropdownOptions} 
+          handleItemClick={this.handleItemClick} 
+          teacherLogin={this.teacherLogin} 
+          activeItem={this.state.activeItem}
+          titleValue={this.state.bookTitle} 
+          genreValue={this.state.bookGenre} 
+          coverValue={this.state.bookUrl} 
+          descriptionValue={this.state.bookDescription}
+          />}
         {books ? <Library books={this.state.books}/> : <Loader active />}
        
       </div>
