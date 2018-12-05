@@ -1,32 +1,62 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Loader} from 'semantic-ui-react'
 import './App.css';
 import NavBar from './components/NavBar'
 import Library from './components/Library'
-
+import TeacherNav from './components/TeacherNav'
+import TeacherView from './components/TeacherView'
+import StudentView from './components/StudentView'
 const booksUrl = 'http://localhost:3222/books/'
+
 class App extends Component {
 
   state = {
     books: '',
-    authors: ''
+    authors: '',
+    cat: 'meow',
+    isTeacher: true,
+    dropdownOptions: ''
   }
 
-  fetchBooks = () => {
+  structureDropdown = () => {
+    const options = this.state.books.map(book => {
+        return(
+            {
+                text: book.title,
+                value: book.id,
+            }
+        )
+    })
+    this.setState({dropdownOptions: options})
+}
+
+  componentDidMount(){
     fetch(booksUrl)
       .then(res => res.json())
-      .then(res => this.setState({ books: res.books }))
+      .then(data => this.setState({ books: data.books }))
+      .then(this.structureDropdown)
+      .catch(err => {
+        console.error(err)
+        return this.setState({error: !null})
+      })
   }
 
-  componentDidMount() {
-    this.fetchBooks()
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+
+  teacherLogin = (e, { name }) => {
+    this.setState({
+      isTeacher: !this.state.isTeacher,
+      activeItem: name
+    })
   }
 
-  render() {
+render() {
+  const {books, isTeacher, dropdownOptions} = this.state;
     return (
       <div className="App">
-        <NavBar />
-        <Library books={this.state.books}/>
+        {isTeacher ? <StudentView dropdownOptions={this.state.dropdownOptions} handleItemClick={this.handleItemClick} teacherLogin={this.teacherLogin} activeItem={this.state.activeItem}/> : <TeacherView dropdownOptions={this.state.dropdownOptions} handleItemClick={this.handleItemClick} teacherLogin={this.teacherLogin} activeItem={this.state.activeItem}/>}
+        {books ? <Library books={this.state.books}/> : <Loader active />}
+       
       </div>
     );
   }

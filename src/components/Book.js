@@ -1,24 +1,35 @@
 import React, { Component } from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import { Card, Icon, Image, Divider, Header } from 'semantic-ui-react'
+
+const style = {
+    card: {
+        width: '75vw'
+    },
+    edit: {
+        display: 'inline'
+    }
+}
 
 class Book extends Component {
 
     render() {
         return (
-            <Card>
-                <Image src={this.props.img} />
+            <Card style={style.card}>
                 <Card.Content>
                     <Card.Header>{this.props.title}</Card.Header>
-                    <Card.Meta>
-                        <span className='date'>Joined in 2015</span>
-                    </Card.Meta>
-                    <Card.Description>{this.props.description}</Card.Description>
+                    <Divider />
+                    <Image floated='left' size='small' src={this.props.img} />
+                    <Card.Content>
+                        <Card.Description floated='right'>{this.props.description}</Card.Description>
+                        <Card.Meta style={style.authors}>
+                            Author(s): {this.props.authors}
+                        </Card.Meta>
+                    </Card.Content>
                 </Card.Content>
-                <Card.Content extra>
-                    <a>
-                        <Icon name='user' />
-                        
-                    </a>
+                <Card.Content>
+                    <Header as='a' style={style.edit}>Edit    </Header>
+                    <Header as='h2' style={style.edit}>|</Header>
+                    <Header as='a' style={style.edit}>    Delete</Header>
                 </Card.Content>
             </Card>
         )
