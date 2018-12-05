@@ -19,7 +19,8 @@ class App extends Component {
     bookTitle: '',
     bookGenre: '',
     bookUrl: '',
-    bookDescription: ''
+    bookDescription: '',
+    warning: null
   }
 
   structureDropdown = () => {
@@ -68,7 +69,7 @@ class App extends Component {
       .then(res => res.json())
       .then(res => {
         if(res.error){
-          alert('post error')
+          this.setState({warning: true})
         } else {
           alert('success')
           this.setState({
@@ -76,7 +77,8 @@ class App extends Component {
             bookTitle: '',
             bookGenre: '',
             bookDescription: '',
-            bookUrl: ''
+            bookUrl: '',
+            warning: null
           })
         }
       })
@@ -133,6 +135,7 @@ render() {
           genreValue={this.state.bookGenre} 
           coverValue={this.state.bookUrl} 
           descriptionValue={this.state.bookDescription}
+          warning={this.state.warning}
           />}
         {books ? <Library books={this.state.books}/> : <Loader active />}
        

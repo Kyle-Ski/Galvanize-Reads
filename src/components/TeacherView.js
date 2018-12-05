@@ -15,7 +15,7 @@ class TeacherView extends Component {
     }
 
     render(){
-        const {handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue} = this.props
+        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue} = this.props
         return(
             <div className="App">
                 <TeacherNav 
@@ -26,7 +26,7 @@ class TeacherView extends Component {
                     books={books}
                     showAdd={this.showAdd}
                 />
-                {this.state.showAdd ? <AddBook title={title} genre={genre} cover={cover} description={description} submit={bookSubmit} titleValue={titleValue} genreValue={genreValue} coverValue={coverValue} descriptionValue={descriptionValue}/> : ''}
+                {this.state.showAdd ? <AddBook title={title} genre={genre} cover={cover} description={description} submit={bookSubmit} titleValue={titleValue} genreValue={genreValue} coverValue={coverValue} descriptionValue={descriptionValue} warningState={warning}/> : ''}
                 {books ? <Library books={books}/> : ''}
             </div>
         )
