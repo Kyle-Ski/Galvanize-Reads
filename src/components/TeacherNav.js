@@ -11,7 +11,7 @@ class TeacherNav extends Component {
             <Icon name='edit' size='big' inverted color='olive'/>
             <Header as='h1' inverted color='olive'>Teacher Dashboard</Header>
             <Menu.Menu position='right' >
-              <Menu.Item name='home' active={activeItem === 'home'} onClick={teacherLogin} color='olive'/>
+              <Menu.Item name='Logout' active={activeItem === 'Logout'} onClick={teacherLogin} color='olive'/>
               <Menu.Item
                 name='Add Book'
                 active={activeItem === 'Add Book'}

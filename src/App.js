@@ -11,6 +11,7 @@ const booksUrl = 'http://localhost:3222/books/'
 class App extends Component {
 
   state = {
+    open: false,
     books: '',
     authors: '',
     cat: 'meow',
@@ -36,16 +37,23 @@ class App extends Component {
     this.setState({dropdownOptions: options})
 }
 
-  componentDidMount(){
-    fetch(booksUrl)
+  fetchBooks = () => {
+    return fetch(booksUrl)
       .then(res => res.json())
       .then(data => this.setState({ books: data.books }))
+  }
+
+  componentDidMount(){
+    this.fetchBooks()
       .then(this.structureDropdown)
       .catch(err => {
         console.error(err)
         return this.setState({error: !null})
       })
   }
+
+  close = () => this.setState({ open: false })
+  open = () => this.setState({ open: true })
 
   bookSubmit = (e) => {
     e.preventDefault()
@@ -88,8 +96,9 @@ class App extends Component {
   }
 
   deleteHandler = (data) => {
-    const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
-    this.setState({books: newBooks})
+    return console.log('hey')
+    // const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
+    // this.setState({books: newBooks})
  }
 
   fetchDeleteBook = () => {
@@ -99,6 +108,17 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(this.deleteHandler)
+  }
+
+  cardDeleteButton = () => {
+    console.log('modal delete')
+    // fetch('http://localhost:3222/books/' + id, {
+    //   method: 'DELETE',
+    //   mode: 'cors'
+    // })
+    //   .then(response => response.json())
+    //   .then(this.deleteHandler)
+    //   .then()
   }
 
   bookDelete = (e) => {
@@ -143,6 +163,8 @@ render() {
         handleItemClick={this.handleItemClick} 
         teacherLogin={this.teacherLogin} 
         activeItem={this.state.activeItem}
+        books={books}
+        isTeacher={this.state.isTeacher}
         /> : 
         <TeacherView 
           title={this.getTitle} 
@@ -161,9 +183,9 @@ render() {
           warning={this.state.warning}
           bookDelete={this.bookDelete}
           fetchDeleteBook={this.fetchDeleteBook}
-          />}
-        {books ? <Library books={this.state.books}/> : <Loader active />}
-       
+          books={books}
+          fetchBooks={this.fetchBooks}
+          />}       
       </div>
     );
   }
