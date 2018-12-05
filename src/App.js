@@ -6,7 +6,7 @@ import Library from './components/Library'
 import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
-const booksUrl = 'http://localhost:3222/books/'
+const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books'
 
 class App extends Component {
 

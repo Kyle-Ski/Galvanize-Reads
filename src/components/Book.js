@@ -40,7 +40,7 @@ class Book extends Component {
         } else if (data.description === '') {
             data.description = this.props.description
         }
-        fetch(`http://localhost:3222/books/${this.props.id}`, {
+        fetch(`https://galvanize-reads-ski.herokuapp.com/${this.props.id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
