@@ -87,9 +87,26 @@ class App extends Component {
     }
   }
 
+  deleteHandler = (data) => {
+    const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
+    this.setState({books: newBooks})
+ }
+
+  fetchDeleteBook = () => {
+    fetch(booksUrl + this.state.bookToDelete, {
+      method: 'DELETE',
+      mode: 'cors'
+    })
+      .then(response => response.json())
+      .then(this.deleteHandler)
+  }
+
   bookDelete = (e) => {
     e.preventDefault()
-    console.log('delete', e.target.innerText)
+    const chosenBook = this.state.books.filter(book => book.title === e.target.innerText)[0]
+    if(chosenBook !== undefined){
+      this.setState({bookToDelete: chosenBook.id})
+    } 
   }
 
   getTitle = (e) => {
@@ -143,6 +160,7 @@ render() {
           descriptionValue={this.state.bookDescription}
           warning={this.state.warning}
           bookDelete={this.bookDelete}
+          fetchDeleteBook={this.fetchDeleteBook}
           />}
         {books ? <Library books={this.state.books}/> : <Loader active />}
        

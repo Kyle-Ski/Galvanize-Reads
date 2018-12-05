@@ -26,6 +26,10 @@ i.olive {
   align-self: center;
 }
 
+div.ui.two.buttons {
+  padding-right: 50vw;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

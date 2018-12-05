@@ -4,11 +4,11 @@ import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message, D
 class DeleteBook extends Component {
 
     render() {
-        const {submit, dropdownOptions} = this.props
+        const {submit, dropdownOptions, fetchDeleteBook} = this.props
         return (
             <Container >
                 <Divider />
-                <Form onSubmit={submit}>
+                <Form onSubmit={fetchDeleteBook}>
                     <Form.Group widths='equal'>
                         <Dropdown onChange={submit} control={Dropdown} search selection options={dropdownOptions} label='Select A Book to Delete' placeholder='Books' />
                     </Form.Group>

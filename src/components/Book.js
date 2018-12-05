@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
-import { Card, Icon, Image, Divider, Header } from 'semantic-ui-react'
+import { Card, Icon, Image, Divider, Header, Button } from 'semantic-ui-react'
 
 const style = {
     card: {
         width: '75vw'
     },
-    edit: {
-        display: 'inline'
-    }
 }
 
 class Book extends Component {
@@ -27,9 +24,10 @@ class Book extends Component {
                     </Card.Content>
                 </Card.Content>
                 <Card.Content>
-                    <Header as='a' style={style.edit}>Edit    </Header>
-                    <Header as='h2' style={style.edit}>|</Header>
-                    <Header as='a' style={style.edit}>    Delete</Header>
+                <div className='ui two buttons'>
+                    <Button basic color='blue' >Edit</Button>
+                    <Button basic color='red' >Delete</Button>
+                </div>
                 </Card.Content>
             </Card>
         )
