@@ -6,7 +6,7 @@ import Library from './components/Library'
 import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
-const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books'
+const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books/'
 
 class App extends Component {
 
@@ -96,9 +96,8 @@ class App extends Component {
   }
 
   deleteHandler = (data) => {
-    return console.log('hey')
-    // const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
-    // this.setState({books: newBooks})
+    const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
+    this.setState({books: newBooks})
  }
 
   fetchDeleteBook = () => {
@@ -110,15 +109,14 @@ class App extends Component {
       .then(this.deleteHandler)
   }
 
-  cardDeleteButton = () => {
-    console.log('modal delete')
-    // fetch('http://localhost:3222/books/' + id, {
-    //   method: 'DELETE',
-    //   mode: 'cors'
-    // })
-    //   .then(response => response.json())
-    //   .then(this.deleteHandler)
-    //   .then()
+  cardDeleteButton = (id) => {
+    fetch(booksUrl + id, {
+      method: 'DELETE',
+      mode: 'cors'
+    })
+      .then(response => response.json())
+      .then(this.deleteHandler)
+      .then()
   }
 
   bookDelete = (e) => {

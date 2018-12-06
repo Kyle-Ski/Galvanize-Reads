@@ -40,7 +40,7 @@ class Book extends Component {
         } else if (data.description === '') {
             data.description = this.props.description
         }
-        fetch(`https://galvanize-reads-ski.herokuapp.com/${this.props.id}`, {
+        fetch(`https://galvanize-reads-ski.herokuapp.com/books/${this.props.id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -53,7 +53,7 @@ class Book extends Component {
             if(res.error){
                 return alert(res.error)
             } else {
-                return alert('success')
+                return alert(`${this.props.title} was successfully edited!`)
             }
         })
         .then(()=> this.setState({bookId: !this.state.bookId}))
