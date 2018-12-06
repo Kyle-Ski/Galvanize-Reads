@@ -7,6 +7,7 @@ import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
 const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books/'
+const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
 
 class App extends Component {
 
@@ -23,7 +24,9 @@ class App extends Component {
     warning: null,
     bookToDelete: '',
     deleteWarning: null,
-    searchedBook: ''
+    searchedBook: '',
+    authors: '',
+    seardchedAuthor: ''
   }
 
   structureDropdown = () => {
@@ -44,8 +47,15 @@ class App extends Component {
       .then(data => this.setState({ books: data.books, searchedBook: data.books }))
   }
 
+  fetchAuthors = () => {
+    return fetch(authorsUrl)
+      .then(res => res.json())
+      .then(data => this.setState({authors: data.authors, seardchedAuthor: data.authors}))
+  }
+
   componentDidMount(){
     this.fetchBooks()
+      .then(this.fetchAuthors)
       .then(this.structureDropdown)
       .catch(err => {
         console.error(err)
@@ -163,7 +173,7 @@ class App extends Component {
   }
 
 render() {
-  const {books, isTeacher, dropdownOptions} = this.state;
+  const {books, isTeacher, dropdownOptions, authors} = this.state;
     return (
       <div className="App">
         {isTeacher ? <StudentView 
@@ -176,6 +186,9 @@ render() {
         searchBooks={this.searchBooks}
         searchedBook={this.state.searchedBook}
         fetchBooks={this.fetchBooks}
+        authors={authors}
+        seardchedAuthor={this.state.seardchedAuthor}
+        fetchAuthors={this.fetchAuthors}
         /> : 
         <TeacherView 
           title={this.getTitle} 
@@ -199,6 +212,9 @@ render() {
           deleteWarning={this.state.deleteWarning}
           searchBooks={this.searchBooks}
           searchedBook={this.state.searchedBook}
+          authors={authors}
+          seardchedAuthor={this.state.seardchedAuthor}
+          fetchAuthors={this.fetchAuthors}
           />}       
       </div>
     );

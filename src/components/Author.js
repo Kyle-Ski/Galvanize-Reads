@@ -16,7 +16,7 @@ const style = {
     }
 }
 
-class Book extends Component {
+class Author extends Component {
 
     state = {
         bookId: false,
@@ -43,7 +43,7 @@ class Book extends Component {
         } else if (data.description === '') {
             data.description = this.props.description
         }
-        fetch(`https://galvanize-reads-ski.herokuapp.com/books/${this.props.id}`, {
+        fetch(`https://galvanize-reads-ski.herokuapp.com/authors/${this.props.id}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -68,7 +68,7 @@ class Book extends Component {
         return (
             <Card style={style.card}>
                 <Card.Content>
-                    <Card.Header>{this.state.bookId ? <Input placeholder={this.props.title} onChange={(e) => this.setState({bookTitle: e.target.value})}/> : this.props.title }</Card.Header>
+                    <Card.Header>{this.state.bookId ? <Input placeholder={`${this.props.firstName} ${this.props.LastName}`}  onChange={(e) => this.setState({bookTitle: e.target.value})}/> : `${this.props.firstName} ${this.props.lastName}` }</Card.Header>
                     <Divider />
                     <Image floated='left' size='small' src={this.props.img} />
                     <Card.Content>
@@ -90,4 +90,4 @@ class Book extends Component {
     }
 }
 
-export default Book
+export default Author
