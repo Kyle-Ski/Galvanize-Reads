@@ -70,7 +70,7 @@ class Author extends Component {
                 <Card.Content>
                     <Card.Header>{this.state.bookId ? <Input placeholder={`${this.props.firstName} ${this.props.LastName}`}  onChange={(e) => this.setState({bookTitle: e.target.value})}/> : `${this.props.firstName} ${this.props.lastName}` }</Card.Header>
                     <Divider />
-                    <Image floated='left' size='small' src={this.props.img} />
+                    <Image floated='left' size='medium' src={this.props.img} />
                     <Card.Content>
                         {this.state.bookId ? <TextArea style={style.textArea} onChange={(e) => this.setState({bookDescription: e.target.value})} placeholder={this.props.description}/> : <Card.Description floated='right'>{this.props.description}</Card.Description>}
                         <Card.Meta style={style.authors}>

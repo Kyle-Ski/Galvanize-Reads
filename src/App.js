@@ -26,7 +26,8 @@ class App extends Component {
     deleteWarning: null,
     searchedBook: '',
     authors: '',
-    seardchedAuthor: ''
+    seardchedAuthor: '',
+    switchViews: true
   }
 
   structureDropdown = () => {
@@ -61,6 +62,19 @@ class App extends Component {
         console.error(err)
         return this.setState({error: !null})
       })
+  }
+
+
+  switchThatView = (name) => {
+    switch (name) {
+      case 'Authors':
+        this.setState({switchViews: false})
+      case 'Books' :
+        this.setState({switchViews: true})
+      default: 
+        alert('Wait, what did you click on?')
+        break;
+   } 
   }
 
   close = () => this.setState({ open: false })
@@ -189,6 +203,8 @@ render() {
         authors={authors}
         seardchedAuthor={this.state.seardchedAuthor}
         fetchAuthors={this.fetchAuthors}
+        switchThatView={this.switchThatView}
+        switchViews={this.state.switchViews}
         /> : 
         <TeacherView 
           title={this.getTitle} 
@@ -215,6 +231,9 @@ render() {
           authors={authors}
           seardchedAuthor={this.state.seardchedAuthor}
           fetchAuthors={this.fetchAuthors}
+          switchThatView={this.switchThatView}
+          switchView={this.state.switchViews}
+
           />}       
       </div>
     );
