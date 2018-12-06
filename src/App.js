@@ -14,7 +14,6 @@ class App extends Component {
     open: false,
     books: '',
     authors: '',
-    cat: 'meow',
     isTeacher: true,
     dropdownOptions: '',
     bookTitle: '',
@@ -22,7 +21,8 @@ class App extends Component {
     bookUrl: '',
     bookDescription: '',
     warning: null,
-    bookToDelete: ''
+    bookToDelete: '',
+    deleteWarning: null,
   }
 
   structureDropdown = () => {
@@ -97,7 +97,7 @@ class App extends Component {
 
   deleteHandler = (data) => {
     const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
-    this.setState({books: newBooks})
+    return this.setState({books: newBooks})
  }
 
   fetchDeleteBook = () => {
@@ -106,7 +106,19 @@ class App extends Component {
       mode: 'cors'
     })
       .then(response => response.json())
-      .then(this.deleteHandler)
+      .then(res => {
+        if(res.error){
+          this.setState({deleteWarning: 'warning'})
+        } else {
+          this.setState({deleteWarning: 'success'})
+          return res
+        }
+      })
+      .then(data => {
+        const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
+        return this.setState({books: newBooks})
+      })
+      .then(this.structureDropdown)
   }
 
   cardDeleteButton = (id) => {
@@ -183,6 +195,7 @@ render() {
           fetchDeleteBook={this.fetchDeleteBook}
           books={books}
           fetchBooks={this.fetchBooks}
+          deleteWarning={this.state.deleteWarning}
           />}       
       </div>
     );

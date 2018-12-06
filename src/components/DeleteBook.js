@@ -4,21 +4,22 @@ import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message, D
 class DeleteBook extends Component {
 
     render() {
-        const {submit, dropdownOptions, fetchDeleteBook} = this.props
+        const {submit, dropdownOptions, fetchDeleteBook, deleteWarning} = this.props
         return (
             <Container >
                 <Divider />
-                <Form onSubmit={fetchDeleteBook}>
+                <Form className={deleteWarning} onSubmit={fetchDeleteBook}>
                     <Form.Group widths='equal'>
-                        <Dropdown onChange={submit} control={Dropdown} search selection options={dropdownOptions} label='Select A Book to Delete' placeholder='Books' />
+                        <Dropdown onChange={submit} search selection options={dropdownOptions} label='Select A Book to Delete' placeholder='Books' />
                     </Form.Group>
 
-                    <Message success header='Book Submitted' content="You have added a book to the Library!" />
+                    <Message success header='Book deleted!' content="You have deleted a book from the Library!" />
                     <Message
                         warning
-                        header='Could you check something!'
+                        header='Look out!'
                         list={[
-                            'You may have not filled out all the fields.',
+                            'Something may have went wrong.',
+                            'Check to see if the book you removed is still here.'
                         ]}
                     />
                     <Form.Field color='red' control={Button}>Delete Book</Form.Field>
