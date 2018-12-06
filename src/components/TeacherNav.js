@@ -4,7 +4,7 @@ import { Menu, Segment, Header, Icon, Dropdown } from 'semantic-ui-react'
 class TeacherNav extends Component {
 
       render(){
-        const { activeItem, handleItemClick, books, teacherLogin, dropdownOptions, showAdd, showDelete } = this.props
+        const { activeItem, handleItemClick, books, teacherLogin, dropdownOptions, showAdd, showDelete, searchBooks } = this.props
         return (
             <Segment inverted>
             <Menu inverted pointing secondary >
@@ -25,7 +25,7 @@ class TeacherNav extends Component {
                 color='olive'
               />
               <Menu.Item>
-                <Dropdown icon='search' placeholder='Search Books' search selection options={dropdownOptions} />
+                <Dropdown icon='search' placeholder='Search Books' search selection options={dropdownOptions} onChange={searchBooks}/>
               </Menu.Item>
               <Menu.Item>
                 <Dropdown icon='search' placeholder='Search Authors' search selection options={dropdownOptions} />

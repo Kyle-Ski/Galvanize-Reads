@@ -23,6 +23,7 @@ class App extends Component {
     warning: null,
     bookToDelete: '',
     deleteWarning: null,
+    searchedBook: ''
   }
 
   structureDropdown = () => {
@@ -40,7 +41,7 @@ class App extends Component {
   fetchBooks = () => {
     return fetch(booksUrl)
       .then(res => res.json())
-      .then(data => this.setState({ books: data.books }))
+      .then(data => this.setState({ books: data.books, searchedBook: data.books }))
   }
 
   componentDidMount(){
@@ -54,6 +55,13 @@ class App extends Component {
 
   close = () => this.setState({ open: false })
   open = () => this.setState({ open: true })
+
+  searchBooks = (e) => {
+    const chosenBook = this.state.books.filter(book => book.title === e.target.innerText)
+    if(chosenBook !== undefined){
+      this.setState({searchedBook: chosenBook})
+    } 
+  }
 
   bookSubmit = (e) => {
     e.preventDefault()
@@ -121,16 +129,6 @@ class App extends Component {
       .then(this.structureDropdown)
   }
 
-  cardDeleteButton = (id) => {
-    fetch(booksUrl + id, {
-      method: 'DELETE',
-      mode: 'cors'
-    })
-      .then(response => response.json())
-      .then(this.deleteHandler)
-      .then()
-  }
-
   bookDelete = (e) => {
     e.preventDefault()
     const chosenBook = this.state.books.filter(book => book.title === e.target.innerText)[0]
@@ -175,6 +173,9 @@ render() {
         activeItem={this.state.activeItem}
         books={books}
         isTeacher={this.state.isTeacher}
+        searchBooks={this.searchBooks}
+        searchedBook={this.state.searchedBook}
+        fetchBooks={this.fetchBooks}
         /> : 
         <TeacherView 
           title={this.getTitle} 
@@ -196,6 +197,8 @@ render() {
           books={books}
           fetchBooks={this.fetchBooks}
           deleteWarning={this.state.deleteWarning}
+          searchBooks={this.searchBooks}
+          searchedBook={this.state.searchedBook}
           />}       
       </div>
     );

@@ -19,7 +19,7 @@ class TeacherView extends Component {
     }
 
     render(){
-        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning} = this.props
+        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning, searchedBook, searchBooks} = this.props
         return(
             <div className="App">
                 <TeacherNav 
@@ -30,6 +30,7 @@ class TeacherView extends Component {
                     books={books}
                     showAdd={this.showAdd}
                     showDelete={this.showDelete}
+                    searchBooks={searchBooks}
                 />
                 {this.state.showAdd ? <AddBook 
                                         title={title} 
@@ -49,7 +50,7 @@ class TeacherView extends Component {
                                             fetchDeleteBook={fetchDeleteBook}
                                             deleteWarning={deleteWarning}
                                             /> : ''}
-                {books ? <Library books={books} fetchBooks={fetchBooks}/> : <Loader active/>}
+                {books ? <Library books={searchedBook} fetchBooks={fetchBooks}/> : <Loader active/>}
             </div>
         )
     }
