@@ -33,7 +33,10 @@ class AddAuthor extends Component {
                             'You may have not filled out all the fields.',
                         ]}
                     />
+                    <Form.Group inline>
                     <Form.Field color='green' control={Button}>Add Author</Form.Field>
+                    <Form.Field color='grey' control={Button} onClick={this.props.showAdd}>Done</Form.Field>
+                    </Form.Group>
                 </Form>
                 <Divider />
             </Container>

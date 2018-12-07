@@ -4,7 +4,7 @@ import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message } 
 class AddBook extends Component {
 
     render() {
-        const {warningState, submit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue} = this.props
+        const {warningState, submit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, showAdd} = this.props
         return (
             <Container >
                 <Divider />
@@ -26,7 +26,10 @@ class AddBook extends Component {
                             'You may have not filled out all the fields.',
                         ]}
                     />
+                    <Form.Group inline>
                     <Form.Field color='green' control={Button}>Add Book</Form.Field>
+                    <Form.Field color='grey' control={Button} onClick={showAdd}>Done</Form.Field>
+                    </Form.Group>
                 </Form>
                 <Divider />
             </Container>

@@ -4,26 +4,26 @@ import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message, D
 class DeleteBook extends Component {
 
     render() {
-        const {submit, dropdownOptions, fetchDeleteBook, deleteWarning, showDelete} = this.props
+        const {submit, authorOptions, fetchDeleteAuthor, deleteAuthorWarning, showDelete} = this.props
         return (
             <Container >
                 <Divider />
-                <Form className={deleteWarning} onSubmit={fetchDeleteBook}>
+                <Form className={deleteAuthorWarning} onSubmit={fetchDeleteAuthor}>
                     <Form.Group widths='equal'>
-                        <Dropdown onChange={submit} search selection options={dropdownOptions} label='Select A Book to Delete' placeholder='Books' />
+                        <Dropdown onChange={submit} search selection options={authorOptions} label='Select an Author to Delete' placeholder='Author..' />
                     </Form.Group>
 
-                    <Message success header='Book deleted!' content="You have deleted a book from the Library!" />
+                    <Message success header='Author deleted!' content="You have deleted an Author from the list!" />
                     <Message
                         warning
                         header='Look out!'
                         list={[
                             'Something may have went wrong.',
-                            'Check to see if the book you removed is still here.'
+                            'Check to see if the author you removed is still here.'
                         ]}
                     />
                     <Form.Group inline>
-                    <Form.Field color='red' control={Button}>Delete Book</Form.Field>
+                    <Form.Field color='red' control={Button}>Remove Author</Form.Field>
                     <Form.Field color='grey' control={Button} onClick={showDelete}>Done</Form.Field>
                     </Form.Group>
                 </Form>

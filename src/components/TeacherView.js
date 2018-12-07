@@ -6,6 +6,8 @@ import AddBook from './AddBook'
 import DeleteBook from './DeleteBook'
 import College from './College'
 import AddAuthor from './AddAuthor'
+import DeleteAuthor from './DeleteAuthor'
+
 class TeacherView extends Component {
 
     state = {
@@ -45,7 +47,7 @@ class TeacherView extends Component {
     }
 
     render(){
-        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning, searchedBook, searchBooks, switchThatView, switchView} = this.props
+        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning, searchedBook, searchBooks, switchThatView, switchView, authorDelete, fetchDeleteAuthor, authorOptions, deleteAuthorWarning} = this.props
         return(
             <div className="App">
                 <TeacherNav 
@@ -61,7 +63,7 @@ class TeacherView extends Component {
                     showAuthorAdd={this.showAuthorAdd}
                     showAuthorDelete={this.showAuthorDelete}
                 />
-                {this.state.showAdd ? <AddBook 
+                {this.state.showAdd ? <AddBook  
                                         title={title} 
                                         genre={genre} 
                                         cover={cover} 
@@ -71,13 +73,15 @@ class TeacherView extends Component {
                                         genreValue={genreValue} 
                                         coverValue={coverValue} 
                                         descriptionValue={descriptionValue} 
-                                        warningState={warning}/> 
-                                        : ''}
+                                        warningState={warning}
+                                        showAdd={this.showAdd}
+                                        /> : ''}
                 {this.state.showDelete ? <DeleteBook 
                                             dropdownOptions={dropdownOptions}
                                             submit={bookDelete}
                                             fetchDeleteBook={fetchDeleteBook}
                                             deleteWarning={deleteWarning}
+                                            showDelete={this.showDelete}
                                             /> : ''}
                 {this.state.showAuthorAdd ? <AddAuthor 
                                                 submitAuthor={this.props.submitAuthor}
@@ -90,9 +94,17 @@ class TeacherView extends Component {
                                                 lastName={this.props.lastName}
                                                 getUrl={this.props.getUrl}
                                                 getAbout={this.props.getAbout}
+                                                showAdd={this.showAuthorAdd}
                                             /> : ''}
+                {this.state.showAuthorDelete ? <DeleteAuthor 
+                                                fetchDeleteAuthor={fetchDeleteAuthor}
+                                                submit={authorDelete}
+                                                authorOptions={authorOptions}
+                                                deleteAuthorWarning={deleteAuthorWarning}
+                                                showDelete={this.showAuthorDelete}
+                /> : ''}
                 {/* {this.state.showAuthorDelete ? <DeleteAuthor />} */}
-                    {switchView ? <Library books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
+                    {switchView ? <Library fetchBooks={this.props.fetchBooks} books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College fetchAuthors={this.props.fetchAuthors} authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
             </div>
         )
     }

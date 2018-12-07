@@ -61,6 +61,7 @@ class Book extends Component {
         })
         .then(()=> this.setState({bookId: !this.state.bookId}))
         .then(this.props.fetchBooks)
+        .catch(err => console.error(err))
     }
 
     render() {

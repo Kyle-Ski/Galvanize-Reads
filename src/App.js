@@ -31,7 +31,10 @@ class App extends Component {
     last: '', 
     about: '',
     url: '',
-    warningState: null
+    warningState: null,
+    authorOptions: '',
+    authorToDelete : '',
+    deleteAuthorWarning : null
   }
 
   structureDropdown = () => {
@@ -45,7 +48,20 @@ class App extends Component {
         )
     })
     this.setState({dropdownOptions: options})
-}
+  }
+
+  structureAuthorDropdown = () => {
+    const options = this.state.authors.map((author, i) => {
+      return(
+          {
+              key: i,
+              value: author.id,
+              text: `${author.firstName} ${author.lastName}`,
+          }
+      )
+  })
+    this.setState({authorOptions: options})
+  }
 
   fetchBooks = () => {
     return fetch(booksUrl)
@@ -63,6 +79,7 @@ class App extends Component {
     this.fetchBooks()
       .then(this.fetchAuthors)
       .then(this.structureDropdown)
+      .then(this.structureAuthorDropdown)
       .catch(err => {
         console.error(err)
         return this.setState({error: !null})
@@ -76,6 +93,7 @@ class App extends Component {
 
   submitAuthor = (e) => {
     e.preventDefault()
+    const currentAuthors = this.state.authors
     const data = {
       firstName: this.state.first,
       lastName: this.state.last,
@@ -100,7 +118,7 @@ class App extends Component {
           this.setState({warningState: 'warning'})
         } else {
           this.setState({
-            authors: [...this.state.authors, res.author], 
+            authors: currentAuthors.concat(res.author), 
             first: '',
             last: '', 
             about: '',
@@ -109,6 +127,7 @@ class App extends Component {
           })
         }
       })
+      .then(this.structureAuthorDropdown)
       .then(this.fetchAuthors)
     }
 }
@@ -173,14 +192,9 @@ class App extends Component {
         }
       })
       .then(this.structureDropdown)
-        
+      .then(this.fetchBooks)
     }
   }
-
-  deleteHandler = (data) => {
-    const newBooks = this.state.books.filter(item => item.id !== data.deleted.id)
-    return this.setState({books: newBooks})
- }
 
   fetchDeleteBook = () => {
     fetch(booksUrl + this.state.bookToDelete, {
@@ -201,6 +215,29 @@ class App extends Component {
         return this.setState({books: newBooks})
       })
       .then(this.structureDropdown)
+      .then(this.fetchBooks)
+  }
+
+  fetchDeleteAuthor = () => {
+    fetch(authorsUrl + this.state.authorToDelete, {
+      method: 'DELETE',
+      mode: 'cors'
+    })
+      .then(response => response.json())
+      .then(res => {
+        if(res.error){
+          this.setState({deleteAuthorWarning: 'warning'})
+        } else {
+          this.setState({deleteAuthorWarning: 'success'})
+          return res
+        }
+      })
+      .then(data => {
+        const newAuthors = this.state.authors.filter(item => item.id !== data.deleted.id)
+        return this.setState({authors: newAuthors})
+      })
+      .then(this.structureAuthorDropdown)
+      .then(this.fetchAuthors)
   }
 
   bookDelete = (e) => {
@@ -208,6 +245,14 @@ class App extends Component {
     const chosenBook = this.state.books.filter(book => book.title === e.target.innerText)[0]
     if(chosenBook !== undefined){
       this.setState({bookToDelete: chosenBook.id})
+    } 
+  }
+
+  authorDelete = (e) => {
+    e.preventDefault()
+    const chosenAuthor = this.state.authors.filter(author => `${author.firstName} ${author.lastName}` == e.target.innerText)[0]
+    if(chosenAuthor !== undefined){
+      this.setState({authorToDelete: chosenAuthor.id})
     } 
   }
 
@@ -293,6 +338,10 @@ render() {
           lastName={this.lastName}
           getUrl={this.url}
           getAbout={this.about}
+          fetchDeleteAuthor={this.fetchDeleteAuthor}
+          authorDelete={this.authorDelete}
+          authorOptions={this.state.authorOptions}
+          deleteAuthorWarning={this.state.deleteAuthorWarning}
           />}       
       </div>
     );

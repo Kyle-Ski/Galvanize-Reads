@@ -32,9 +32,9 @@ class Author extends Component {
 
     submitButton = () => {
         const data = {
-            title: this.state.authorName,
-            genre: this.state.bookGenre,
-            description: this.state.authorSummary
+            firstName: this.state.authorFirstName,
+            lastName: this.state.authorSecondName,
+            biography: this.state.authorSummary
         }
         if(data.title === ''){
             data.title = this.props.title
@@ -56,11 +56,12 @@ class Author extends Component {
             if(res.error){
                 return alert(res.error)
             } else {
-                return alert(`${this.props.title} was successfully edited!`)
+                return alert(`${this.props.firstName} ${this.props.lastName} was successfully edited!`)
             }
         })
         .then(()=> this.setState({edit: !this.state.edit}))
-        .then(this.props.fetchBooks)
+        .then(this.props.fetchAuthors)
+        .catch(err => console.error(err))
     }
 
     render() {
