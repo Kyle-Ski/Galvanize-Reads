@@ -31,11 +31,12 @@ class App extends Component {
   }
 
   structureDropdown = () => {
-    const options = this.state.books.map(book => {
+    const options = this.state.books.map((book, i) => {
         return(
             {
-                text: book.title,
+                key: i,
                 value: book.id,
+                text: book.title,
             }
         )
     })
@@ -65,12 +66,13 @@ class App extends Component {
   }
 
 
-  switchThatView = (name) => {
+  switchThatView = (e , {name}) => {
     switch (name) {
       case 'Authors':
-        this.setState({switchViews: false})
+        return this.setState({switchViews: false})
       case 'Books' :
-        this.setState({switchViews: true})
+        return this.fetchBooks()
+        .then(() => this.setState({switchViews: true}))
       default: 
         alert('Wait, what did you click on?')
         break;
@@ -84,12 +86,13 @@ class App extends Component {
     const chosenBook = this.state.books.filter(book => book.title === e.target.innerText)
     if(chosenBook !== undefined){
       this.setState({searchedBook: chosenBook})
-    } 
+    } else {
+      console.log('else')
+    }
   }
 
   bookSubmit = (e) => {
     e.preventDefault()
-    console.log('submit')
     const data = {
       title: this.state.bookTitle,
       genre: this.state.bookGenre,
@@ -233,7 +236,6 @@ render() {
           fetchAuthors={this.fetchAuthors}
           switchThatView={this.switchThatView}
           switchView={this.state.switchViews}
-
           />}       
       </div>
     );

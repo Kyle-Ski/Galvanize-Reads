@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Card, Icon, Image, Divider, Header, Button, Modal, Input, TextArea } from 'semantic-ui-react'
+import { Card, Image, Divider, Button, Input, TextArea } from 'semantic-ui-react'
 
 const style = {
     card: {
         width: '75vw'
     },
     textArea: {
-        width: '60vw',
+        width: '40vw',
         height: '30vh',
         borderRadius: '5px',
         border: 'solid #DEDEDF 1px'
@@ -19,22 +19,22 @@ const style = {
 class Author extends Component {
 
     state = {
-        bookId: false,
-        bookTitle: '',
-        bookDescription: '',
-        bookGenre: ''
+        edit: false,
+        authorFirstName: this.props.firstName,
+        authorSecondName: this.props.lastName,
+        authorSummary: this.props.biography,
     }
 
     editButton = () => {
         console.log(this.props.title)
-        this.setState({bookId: !this.state.bookId})
+        this.setState({edit: !this.state.edit})
     }
 
     submitButton = () => {
         const data = {
-            title: this.state.bookTitle,
+            title: this.state.authorName,
             genre: this.state.bookGenre,
-            description: this.state.bookDescription
+            description: this.state.authorSummary
         }
         if(data.title === ''){
             data.title = this.props.title
@@ -59,7 +59,7 @@ class Author extends Component {
                 return alert(`${this.props.title} was successfully edited!`)
             }
         })
-        .then(()=> this.setState({bookId: !this.state.bookId}))
+        .then(()=> this.setState({edit: !this.state.edit}))
         .then(this.props.fetchBooks)
     }
 
@@ -68,20 +68,19 @@ class Author extends Component {
         return (
             <Card style={style.card}>
                 <Card.Content>
-                    <Card.Header>{this.state.bookId ? <Input placeholder={`${this.props.firstName} ${this.props.LastName}`}  onChange={(e) => this.setState({bookTitle: e.target.value})}/> : `${this.props.firstName} ${this.props.lastName}` }</Card.Header>
+                    <Card.Header>{this.state.edit ? <div><Input placeholder={this.props.firstName} value={this.state.authorFirstName} onChange={(e) => this.setState({authorFirstName: e.target.value})}/> <Input placeholder={this.props.lastName} value={this.state.authorSecondName} onChange={(e)=>this.setState({authorSecondName: e.target.value})}/>  </div> : `${this.props.firstName} ${this.props.lastName}` }</Card.Header>
                     <Divider />
                     <Image floated='left' size='medium' src={this.props.img} />
                     <Card.Content>
-                        {this.state.bookId ? <TextArea style={style.textArea} onChange={(e) => this.setState({bookDescription: e.target.value})} placeholder={this.props.description}/> : <Card.Description floated='right'>{this.props.description}</Card.Description>}
+                        {this.state.edit ? <TextArea style={style.textArea} onChange={(e) => this.setState({authorSummary: e.target.value})} value={this.state.authorSummary} placeholder={this.props.biography}/> : <Card.Description floated='right'><strong>About:</strong> <br/><br/> {this.props.biography}</Card.Description>}
                         <Card.Meta style={style.authors}>
-                            Genre: {this.state.bookId ? <Input onChange={(e) => this.setState({bookGenre: e.target.value})} placeholder={this.props.genre} /> : this.props.genre}
                         </Card.Meta>
                     </Card.Content>
                 </Card.Content>
                 <Card.Content>
                 {isTeacher ? '' : <div className='ui two buttons'>
                     <Button style={style.button} basic color='blue' onClick={this.editButton}>Edit</Button>
-                    {this.state.bookId ? <Button style={style.button} basic color='green' onClick={this.submitButton}>Submit</Button> : ''}
+                    {this.state.edit ? <Button style={style.button} basic color='green' onClick={this.submitButton}>Submit</Button> : ''}
                 </div>}
                 </Card.Content>
             </Card>

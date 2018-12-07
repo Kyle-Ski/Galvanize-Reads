@@ -4,11 +4,13 @@ import TeacherNav from './TeacherNav'
 import Library from './Library'
 import AddBook from './AddBook'
 import DeleteBook from './DeleteBook';
+import College from './College'
 class TeacherView extends Component {
 
     state = {
         showAdd: false,
-        showDelete: false
+        showDelete: false,
+        
     }
 
     showAdd = () => {
@@ -18,8 +20,22 @@ class TeacherView extends Component {
         this.setState({showDelete: !this.state.showDelete})
     }
 
+    handleViewChange = () =>{
+        if (this.props.authors){
+            return(
+                <div className="App">
+                    {this.props.switchViews ? <Library books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
+                    {/* {books ? <Library books={searchedBook} isTeacher={isTeacher}/> : <Loader active/>} */}
+                    {/* {authors ? <College authors={seardchedAuthor} isTeacher={isTeacher} /> : <Loader active/>} */}
+                </div>
+            )
+        } else {
+            return (<Loader active/>)
+        }
+    }
+
     render(){
-        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning, searchedBook, searchBooks} = this.props
+        const {warning, handleItemClick, teacherLogin, activeItem, books, dropdownOptions, bookSubmit, bookDelete, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, fetchDeleteBook, fetchBooks, deleteWarning, searchedBook, searchBooks, switchThatView, switchView} = this.props
         return(
             <div className="App">
                 <TeacherNav 
@@ -31,6 +47,7 @@ class TeacherView extends Component {
                     showAdd={this.showAdd}
                     showDelete={this.showDelete}
                     searchBooks={searchBooks}
+                    switchThatView={switchThatView}
                 />
                 {this.state.showAdd ? <AddBook 
                                         title={title} 
@@ -50,7 +67,7 @@ class TeacherView extends Component {
                                             fetchDeleteBook={fetchDeleteBook}
                                             deleteWarning={deleteWarning}
                                             /> : ''}
-                {books ? <Library books={searchedBook} fetchBooks={fetchBooks}/> : <Loader active/>}
+                    {switchView ? <Library books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
             </div>
         )
     }

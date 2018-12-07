@@ -13,7 +13,7 @@ const style = {
 class NavBar extends Component {
 
     render() {
-        const { activeItem, handleItemClick, dropdownOptions, searchBooks, fetchBooks } = this.props
+        const { activeItem, handleItemClick, dropdownOptions, searchBooks, fetchBooks, switchThatView } = this.props
         return (
             <Segment inverted>
             <Menu inverted pointing secondary >
@@ -24,13 +24,13 @@ class NavBar extends Component {
               <Menu.Item
                 name='Books'
                 active={activeItem === 'Books'}
-                onClick={fetchBooks}
+                onClick={switchThatView}
                 color='olive'
               />
               <Menu.Item
                 name='Authors'
                 active={activeItem === 'Authors'}
-                onClick={handleItemClick}
+                onClick={switchThatView}
                 color='olive'
               />
                <Menu.Item
@@ -40,7 +40,7 @@ class NavBar extends Component {
                 color='olive'
               />
             <Menu.Item>
-              <Dropdown icon='search' placeholder='Search For a Book' search selection options={dropdownOptions} onChange={searchBooks}/>
+              <Dropdown icon='search' name='books' placeholder='Search For a Book' search selection options={dropdownOptions} onChange={searchBooks}/>
             </Menu.Item>
               
                 </Menu.Menu>

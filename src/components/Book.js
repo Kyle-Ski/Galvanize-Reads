@@ -20,9 +20,9 @@ class Book extends Component {
 
     state = {
         bookId: false,
-        bookTitle: '',
-        bookDescription: '',
-        bookGenre: ''
+        bookTitle: this.props.title,
+        bookDescription: this.props.description,
+        bookGenre: this.props.genre
     }
 
     editButton = () => {
@@ -68,13 +68,13 @@ class Book extends Component {
         return (
             <Card style={style.card}>
                 <Card.Content>
-                    <Card.Header>{this.state.bookId ? <Input placeholder={this.props.title} onChange={(e) => this.setState({bookTitle: e.target.value})}/> : this.props.title }</Card.Header>
+                    <Card.Header>{this.state.bookId ? <Input placeholder={this.props.title} value={this.state.bookTitle} onChange={(e) => this.setState({bookTitle: e.target.value})}/> : this.props.title }</Card.Header>
                     <Divider />
                     <Image floated='left' size='small' src={this.props.img} />
                     <Card.Content>
-                        {this.state.bookId ? <TextArea style={style.textArea} onChange={(e) => this.setState({bookDescription: e.target.value})} placeholder={this.props.description}/> : <Card.Description floated='right'>{this.props.description}</Card.Description>}
+                        {this.state.bookId ? <TextArea style={style.textArea} onChange={(e) => this.setState({bookDescription: e.target.value})} value={this.state.bookDescription} placeholder={this.props.description}/> : <Card.Description floated='right'>{this.props.description}</Card.Description>}
                         <Card.Meta style={style.authors}>
-                            Genre: {this.state.bookId ? <Input onChange={(e) => this.setState({bookGenre: e.target.value})} placeholder={this.props.genre} /> : this.props.genre}
+                            Genre: {this.state.bookId ? <Input onChange={(e) => this.setState({bookGenre: e.target.value})} value={this.state.bookGenre} placeholder={this.props.genre} /> : this.props.genre}
                         </Card.Meta>
                     </Card.Content>
                 </Card.Content>
