@@ -3,14 +3,16 @@ import {Loader} from 'semantic-ui-react'
 import TeacherNav from './TeacherNav'
 import Library from './Library'
 import AddBook from './AddBook'
-import DeleteBook from './DeleteBook';
+import DeleteBook from './DeleteBook'
 import College from './College'
+import AddAuthor from './AddAuthor'
 class TeacherView extends Component {
 
     state = {
         showAdd: false,
         showDelete: false,
-        
+        showAuthorAdd: false,
+        showAuthorDelete: false
     }
 
     showAdd = () => {
@@ -18,6 +20,14 @@ class TeacherView extends Component {
     }
     showDelete = () => {
         this.setState({showDelete: !this.state.showDelete})
+    }
+
+    showAuthorAdd = () => {
+        this.setState({showAuthorAdd: !this.state.showAuthorAdd})
+    }
+
+    showAuthorDelete = () => {
+        this.setState({showAuthorDelete: !this.state.showAuthorDelete})
     }
 
     handleViewChange = () =>{
@@ -48,6 +58,8 @@ class TeacherView extends Component {
                     showDelete={this.showDelete}
                     searchBooks={searchBooks}
                     switchThatView={switchThatView}
+                    showAuthorAdd={this.showAuthorAdd}
+                    showAuthorDelete={this.showAuthorDelete}
                 />
                 {this.state.showAdd ? <AddBook 
                                         title={title} 
@@ -67,6 +79,8 @@ class TeacherView extends Component {
                                             fetchDeleteBook={fetchDeleteBook}
                                             deleteWarning={deleteWarning}
                                             /> : ''}
+                {this.state.showAuthorAdd ? <AddAuthor /> : '   '}
+                {/* {this.state.showAuthorDelete ? <DeleteAuthor />} */}
                     {switchView ? <Library books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
             </div>
         )
