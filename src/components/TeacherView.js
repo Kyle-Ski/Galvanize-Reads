@@ -79,7 +79,18 @@ class TeacherView extends Component {
                                             fetchDeleteBook={fetchDeleteBook}
                                             deleteWarning={deleteWarning}
                                             /> : ''}
-                {this.state.showAuthorAdd ? <AddAuthor /> : '   '}
+                {this.state.showAuthorAdd ? <AddAuthor 
+                                                submitAuthor={this.props.submitAuthor}
+                                                first={this.props.first}
+                                                last={this.props.last} 
+                                                about={this.props.about}
+                                                url={this.props.url}
+                                                warningState={this.props.warningState}
+                                                firstName={this.props.firstName}
+                                                lastName={this.props.lastName}
+                                                getUrl={this.props.getUrl}
+                                                getAbout={this.props.getAbout}
+                                            /> : ''}
                 {/* {this.state.showAuthorDelete ? <DeleteAuthor />} */}
                     {switchView ? <Library books={this.props.searchedBook} isTeacher={this.props.isTeacher}/> : <College authors={this.props.seardchedAuthor} isTeacher={this.props.isTeacher} />}
             </div>

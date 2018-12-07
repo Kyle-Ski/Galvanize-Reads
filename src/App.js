@@ -25,9 +25,13 @@ class App extends Component {
     bookToDelete: '',
     deleteWarning: null,
     searchedBook: '',
-    authors: '',
     seardchedAuthor: '',
-    switchViews: true
+    switchViews: true,
+    first: '',
+    last: '', 
+    about: '',
+    url: '',
+    warningState: null
   }
 
   structureDropdown = () => {
@@ -65,6 +69,49 @@ class App extends Component {
       })
   }
 
+  firstName = (e) => this.setState({first: e.target.value})
+  lastName = (e) => this.setState({last: e.target.value})
+  url = (e) => this.setState({url: e.target.value})
+  about = (e) => this.setState({about: e.target.value})
+
+  submitAuthor = (e) => {
+    e.preventDefault()
+    const data = {
+      firstName: this.state.first,
+      lastName: this.state.last,
+      biography: this.state.about,
+      imageURL: this.state.url
+    }
+    if (!data.firstName || !data.lastName || !data.biography || !data.imageURL){
+        return this.setState({warning: 'warning'})
+    } else {
+      fetch(authorsUrl, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        if(res.error){
+          this.setState({warningState: 'warning'})
+        } else {
+          this.setState({
+            authors: [...this.state.authors, res.author], 
+            first: '',
+            last: '', 
+            about: '',
+            url: '',
+            warningState: 'success'
+          })
+        }
+      })
+      .then(this.fetchAuthors)
+    }
+}
 
   switchThatView = (e , {name}) => {
     switch (name) {
@@ -236,6 +283,16 @@ render() {
           fetchAuthors={this.fetchAuthors}
           switchThatView={this.switchThatView}
           switchView={this.state.switchViews}
+          submitAuthor={this.submitAuthor}
+          first={this.state.first}
+          last={this.state.last} 
+          about={this.state.about}
+          url={this.state.url}
+          warningState={this.state.warningState}
+          firstName={this.firstName}
+          lastName={this.lastName}
+          getUrl={this.url}
+          getAbout={this.about}
           />}       
       </div>
     );

@@ -11,25 +11,20 @@ class AddAuthor extends Component {
         warningState: null
     }
 
-    submitAuthor = () => {
-        console.log('submit')
-    }
-
     render(){
-        const {warningState} = this.state
         return (
             <Container >
                 <Divider />
-                <Form className={warningState} onSubmit={this.submitAuthor}>
+                <Form className={this.props.warningState} onSubmit={this.props.submitAuthor}>
                     <Form.Group widths='equal'>
-                        <Form.Field onChange={(e) => this.setState({first: e.target.value})} control={Input} value={this.state.first} label='First Name' placeholder='First Name' />
-                        <Form.Field onChange={(e) => this.setState({last: e.target.value})} control={Input} value={this.state.last} label='Last Name' placeholder='Last Name' />
-                        <Form.Field onChange={(e) => this.setState({url: e.target.value})} control={Input} value={this.state.url} label='Image Url'  placeholder='Image Url' />
+                        <Form.Field onChange={this.props.firstName} control={Input} value={this.props.first} label='First Name' placeholder='First Name' />
+                        <Form.Field onChange={this.props.lastName} control={Input} value={this.props.last} label='Last Name' placeholder='Last Name' />
+                        <Form.Field onChange={this.props.getUrl} control={Input} value={this.props.url} label='Image Url'  placeholder='Image Url' />
                     </Form.Group>
 
                     <Form.Group inline>
                     </Form.Group>
-                    <Form.Field onChange={(e) => this.setState({about: e.target.value})} control={TextArea} value={this.state.about} label='Description' placeholder='Summary...' />
+                    <Form.Field onChange={this.props.getAbout} control={TextArea} value={this.props.about} label='Description' placeholder='Summary...' />
                     <Message success header='Author Submitted' content="You have added an author to the list!" />
                     <Message
                         warning
