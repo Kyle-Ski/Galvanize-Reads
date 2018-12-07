@@ -250,7 +250,14 @@ class App extends Component {
 
   authorDelete = (e) => {
     e.preventDefault()
-    const chosenAuthor = this.state.authors.filter(author => `${author.firstName} ${author.lastName}` == e.target.innerText)[0]
+    const targetSpaces = e.target.innerText
+    const noTargetSpaces = targetSpaces.replace(/\s/g,'')
+    const chosenAuthor = this.state.authors.filter(author => {
+      let spaces =`${author.firstName} ${author.lastName}` 
+      let noSpaces = spaces.replace(/\s/g,'')
+      return noSpaces == noTargetSpaces
+    })[0]
+    console.log(chosenAuthor)
     if(chosenAuthor !== undefined){
       this.setState({authorToDelete: chosenAuthor.id})
     } 
