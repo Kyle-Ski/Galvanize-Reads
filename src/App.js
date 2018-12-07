@@ -125,6 +125,7 @@ class App extends Component {
             url: '',
             warningState: 'success'
           })
+          setTimeout(()=>this.setState({warningState: null}), 2000)
         }
       })
       .then(this.structureAuthorDropdown)
@@ -189,6 +190,7 @@ class App extends Component {
             bookUrl: '',
             warning: 'success'
           })
+          setTimeout(()=>this.setState({warning: null}), 2000)
         }
       })
       .then(this.structureDropdown)
@@ -207,6 +209,7 @@ class App extends Component {
           this.setState({deleteWarning: 'warning'})
         } else {
           this.setState({deleteWarning: 'success'})
+          setTimeout(()=>this.setState({deleteWarning: null}), 2000)
           return res
         }
       })
@@ -229,6 +232,7 @@ class App extends Component {
           this.setState({deleteAuthorWarning: 'warning'})
         } else {
           this.setState({deleteAuthorWarning: 'success'})
+          setTimeout(()=>this.setState({deleteAuthorWarning: null}), 2000)
           return res
         }
       })
