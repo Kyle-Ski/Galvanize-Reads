@@ -1,7 +1,7 @@
 # Welcome to Galvanize Reads!
-Here is my [Deployed site](https://galvanize-reads-ski.surge.sh/)
-Here is the repp for the [database](https://github.com/Kyle-Ski/Galvanize-Reads-Database)
-Here is the [deployed database](https://galvanize-reads-ski.herokuapp.com/)
+* Here is my [Deployed site](https://galvanize-reads-ski.surge.sh/)
+* Here is the repp for the [database](https://github.com/Kyle-Ski/Galvanize-Reads-Database)
+* Here is the [deployed database](https://galvanize-reads-ski.herokuapp.com/)
 
 ## Background
 
