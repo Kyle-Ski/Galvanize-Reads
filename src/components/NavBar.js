@@ -16,7 +16,7 @@ class NavBar extends Component {
         const { activeItem, handleItemClick, dropdownOptions, searchBooks, fetchBooks, switchThatView } = this.props
         return (
             <Segment inverted>
-            <Menu inverted pointing secondary >
+            <Menu inverted pointing secondary stackable>
             <Image style={style.image} src='/G.png'/>
             <Header as='h1' inverted color='olive'>Galvanize Reads</Header>
             <Menu.Menu position='right' >
@@ -40,7 +40,7 @@ class NavBar extends Component {
                 color='olive'
               />
             <Menu.Item>
-              <Dropdown icon='search' name='books' placeholder='Search For a Book' search selection options={dropdownOptions} onChange={searchBooks}/>
+              <Dropdown icon='search' placeholder='Search For a Book' search selection options={dropdownOptions} onChange={searchBooks}/>
             </Menu.Item>
               
                 </Menu.Menu>

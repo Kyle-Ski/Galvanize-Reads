@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message } from 'semantic-ui-react'
+import { Input, Button, Form, TextArea, Dropdown, Container, Divider, Message } from 'semantic-ui-react'
 
 class AddBook extends Component {
 
     render() {
-        const {warningState, submit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, showAdd} = this.props
+        const {handleRemoveAuthor, handleUserAuthorAdd, newAuthors, handleAddAuthor, dropdownOptions, warningState, submit, title, genre, cover, description, titleValue, genreValue, coverValue, descriptionValue, showAdd} = this.props
         return (
             <Container >
                 <Divider />
@@ -14,7 +14,14 @@ class AddBook extends Component {
                         <Form.Field onChange={genre} control={Input} value={genreValue} label='Genre' placeholder='Genre' />
                         <Form.Field onChange={cover} control={Input} value={coverValue} label='Cover Url'  placeholder='Cover Url' />
                     </Form.Group>
-
+                        <Form.Field color='blue' control={Button} onClick={handleAddAuthor}> + Another Author</Form.Field>
+                        {newAuthors.map((author, idx) =>(
+                            <div>
+                            <Form.Field control={Dropdown} onChange={handleUserAuthorAdd(idx)} search selection options={dropdownOptions} label='Select an Author' placeholder='Authors..' />
+                            <Form.Field control={Button} color='red' onClick={handleRemoveAuthor(idx)}>- Author</Form.Field>
+                            </div>
+                        ))
+                        }
                     <Form.Group inline>
                     </Form.Group>
                     <Form.Field onChange={description} control={TextArea} value={descriptionValue} label='Description' placeholder='Summary...' />

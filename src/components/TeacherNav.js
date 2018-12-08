@@ -8,7 +8,7 @@ class TeacherNav extends Component {
         const { activeItem, handleItemClick, books, teacherLogin, dropdownOptions, showAdd, showDelete, searchBooks, switchThatView, showAuthorAdd, showAuthorDelete} = this.props
         return (
             <Segment inverted>
-            <Menu inverted pointing secondary >
+            <Menu inverted pointing secondary stackable>
             <Icon name='edit' size='big' inverted color='olive'/>
             <Header as='h1' inverted color='olive'>Teacher Dashboard</Header>
             <Menu.Menu position='right' >

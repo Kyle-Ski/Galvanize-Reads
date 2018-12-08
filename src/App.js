@@ -6,7 +6,7 @@ import Library from './components/Library'
 import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
-const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books/'
+const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/books'
 const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
 
 class App extends Component {
@@ -34,8 +34,45 @@ class App extends Component {
     warningState: null,
     authorOptions: '',
     authorToDelete : '',
-    deleteAuthorWarning : null
+    deleteAuthorWarning : null,
+    newAuthors: [{firstName: '', lastName: '', id: ''}]
   }
+
+  handleRemoveAuthor = (idx) => (e) => {
+    e.preventDefault()
+    this.setState({
+    newAuthors: this.state.newAuthors.filter((s, sidx) => idx !== sidx)
+    })
+  }
+
+  handleAddAuthor =  (e) => {
+    e.preventDefault()
+    this.setState({
+      newAuthors: this.state.newAuthors.concat([{firstName: '', lastName: '', id: ''}])
+    })
+  }
+
+  handleUserAuthorAdd = (idx) => (evt) => {
+    if (!evt.target.type){
+      const targetSpaces = evt.target.innerText
+      const noTargetSpaces = targetSpaces.replace(/\s/g,'')
+      const chosenAuthor = this.state.authors.filter(author => {
+        let spaces =`${author.firstName} ${author.lastName}` 
+        let noSpaces = spaces.replace(/\s/g,'')
+        return noSpaces == noTargetSpaces
+      })[0]  
+      const authors = this.state.newAuthors.map((author, sidx) => {
+        if (idx !== sidx){
+          return author
+        } else {
+          return { ...author, firstName: chosenAuthor.firstName, lastName: chosenAuthor.lastName, id: chosenAuthor.id, }
+        }
+      })
+      
+      this.setState({newAuthors: authors})
+    } 
+  }
+  
 
   structureDropdown = () => {
     const options = this.state.books.map((book, i) => {
@@ -166,10 +203,11 @@ class App extends Component {
       description: this.state.bookDescription,
       coverURL: this.state.bookUrl
     }
+    const authors = this.state.newAuthors.map(author => author.id)
     if (!data.title || !data.genre || !data.description || !data.coverURL){
         return this.setState({warning: 'warning'})
     } else {
-      fetch(booksUrl, {
+      fetch('https://galvanize-reads-ski.herokuapp.com/books', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -178,6 +216,23 @@ class App extends Component {
       body: JSON.stringify(data)
       })
       .then(res => res.json())
+      //NEED TO ADD ROUTE TO POST TO JOIN TABLE 
+      // .then(res => {
+      //   authors.map(author => {
+      //     const data = {
+      //       book_id: res.book.id,
+      //       author_id: author
+      //     }
+      //     fetch(book_authorsJoinUrl, {
+      //       method: 'POST',
+      //       mode: 'cors',
+      //       headers:{
+      //         "Content-Type": "application/json; charset=utf-8"
+      //       },
+      //       body: JSON.stringify(data)
+      //     })
+      //   })
+      // })
       .then(res => {
         if(res.error){
           this.setState({warning: 'warning'})
@@ -199,7 +254,7 @@ class App extends Component {
   }
 
   fetchDeleteBook = () => {
-    fetch(booksUrl + this.state.bookToDelete, {
+    fetch('https://galvanize-reads-ski.herokuapp.com/books/' + this.state.bookToDelete, {
       method: 'DELETE',
       mode: 'cors'
     })
@@ -353,6 +408,10 @@ render() {
           authorDelete={this.authorDelete}
           authorOptions={this.state.authorOptions}
           deleteAuthorWarning={this.state.deleteAuthorWarning}
+          handleAddAuthor={this.handleAddAuthor}
+          newAuthors={this.state.newAuthors}
+          handleUserAuthorAdd={this.handleUserAuthorAdd}
+          handleRemoveAuthor={this.handleRemoveAuthor}
           />}       
       </div>
     );

@@ -16,6 +16,7 @@ const Library = ({books, isTeacher, fetchBooks}) =>  (
                 isTeacher={isTeacher}
                 id={book.id}
                 fetchBooks={fetchBooks}
+                authors={book.authors}
             />
         )
 
