@@ -8,7 +8,8 @@ import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
 const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/books'
 const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
-
+let book_authorsJoinUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/'
+// book_authorsJoinUrl = 'http://localhost:3222/book_authors'
 class App extends Component {
 
   state = {
@@ -211,42 +212,47 @@ class App extends Component {
         method: 'POST',
         mode: 'cors',
         headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      },
-      body: JSON.stringify(data)
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
       })
       .then(res => res.json())
       //NEED TO ADD ROUTE TO POST TO JOIN TABLE 
-      // .then(res => {
-      //   authors.map(author => {
-      //     const data = {
-      //       book_id: res.book.id,
-      //       author_id: author
-      //     }
-      //     fetch(book_authorsJoinUrl, {
-      //       method: 'POST',
-      //       mode: 'cors',
-      //       headers:{
-      //         "Content-Type": "application/json; charset=utf-8"
-      //       },
-      //       body: JSON.stringify(data)
-      //     })
-      //   })
-      // })
       .then(res => {
-        if(res.error){
-          this.setState({warning: 'warning'})
-        } else {
-          this.setState({
-            books: [...this.state.books, res.book], 
-            bookTitle: '',
-            bookGenre: '',
-            bookDescription: '',
-            bookUrl: '',
-            warning: 'success'
+        const bookId = res.book.id
+        return authors.map(author => {
+          const bookAuthorData = {
+            book_id: bookId,
+            author_id: author
+          }
+          return fetch(book_authorsJoinUrl, {
+            method: 'POST',
+            mode: 'cors',
+            headers:{
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(bookAuthorData)
           })
-          setTimeout(()=>this.setState({warning: null}), 2000)
-        }
+          .then(res => res.json())
+        })
+      })
+      .then(pending => Promise.all(pending))
+      .then(res => {
+        console.log(res)
+        // if(res.error){
+        //   this.setState({warning: 'warning'})
+        // } else {
+        //   this.setState({
+        //     books: [...this.state.books, res.book], 
+        //     bookTitle: '',
+        //     bookGenre: '',
+        //     bookDescription: '',
+        //     bookUrl: '',
+        //     warning: 'success'
+        //   })
+        //   setTimeout(()=>this.setState({warning: null}), 2000)
+        // }
+        return res
       })
       .then(this.structureDropdown)
       .then(this.fetchBooks)
