@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
-import {Loader} from 'semantic-ui-react'
+import {Loader, Menu, Segment, Header, Icon, Dropdown, Image} from 'semantic-ui-react'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+
 import './App.css';
 import NavBar from './components/NavBar'
 import Library from './components/Library'
 import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
+import Login from './components/Login'
+import SignUp from './components/SignUp';
 const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/books'
 const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
+
+const style = {
+  image: {
+    maxHeight: '40px',
+    maxWidth: '40px',
+    alignSelf: 'center',
+    margin: '10px'
+  }
+}
 
 class App extends Component {
 
@@ -15,7 +28,7 @@ class App extends Component {
     open: false,
     books: '',
     authors: '',
-    isTeacher: true,
+    isTeacher: false,
     dropdownOptions: '',
     bookTitle: '',
     bookGenre: '',
@@ -338,20 +351,149 @@ class App extends Component {
     this.setState({bookDescription : e.target.value})
   }
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  // handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
-  teacherLogin = (e, { name }) => {
-    this.setState({
-      isTeacher: !this.state.isTeacher,
-      activeItem: name
-    })
-  }
+  // teacherLogin = (e, { name }) => {
+  //   this.setState({
+  //     isTeacher: !this.state.isTeacher,
+  //     activeItem: name
+  //   })
+  // }
 
 render() {
   const {books, isTeacher, dropdownOptions, authors} = this.state;
     return (
+      <Router>
       <div className="App">
-        {isTeacher ? <StudentView 
+          <Segment inverted>
+            <Menu inverted pointing secondary stackable>
+              <Image style={style.image} src='/G.png' />
+              <Header as='h1' inverted color='olive'>Galvanize Reads</Header>
+              <Menu.Item onClick={() => this.setState({isTeacher: true})} name='Sign Up' color='olive'><Link to='/signup'>Sign Up</Link></Menu.Item>
+              <Menu.Item onClick={() => this.setState({isTeacher: false})} name='Log Out' color='olive'><Link to='/'>Log Out</Link></Menu.Item>
+              {isTeacher ? (
+                <Dropdown item text='Edit Library'>
+                <Dropdown.Menu>
+                  <Dropdown.Item >Add Book</Dropdown.Item>
+                  <Dropdown.Item >Delete Book</Dropdown.Item>
+                  <Dropdown.Item >Add Author</Dropdown.Item>
+                  <Dropdown.Item >Remove Author</Dropdown.Item>
+                </Dropdown.Menu>             
+                </Dropdown>
+): ''}
+            </Menu>
+          </Segment>
+                <Switch>
+                <Route path='/signup' component={SignUp}/>
+                <Route path='/' render={props => <Login {...props}           
+                        title={this.getTitle} 
+                        genre={this.getGenre} 
+                        cover={this.getBookUrl} 
+                        description={this.getDescription} 
+                        bookSubmit={this.bookSubmit} 
+                        dropdownOptions={dropdownOptions} 
+                        handleItemClick={this.handleItemClick} 
+                        teacherLogin={this.teacherLogin} 
+                        activeItem={this.state.activeItem}
+                        titleValue={this.state.bookTitle} 
+                        genreValue={this.state.bookGenre} 
+                        coverValue={this.state.bookUrl} 
+                        descriptionValue={this.state.bookDescription}
+                        warning={this.state.warning}
+                        bookDelete={this.bookDelete}
+                        fetchDeleteBook={this.fetchDeleteBook}
+                        books={books}
+                        fetchBooks={this.fetchBooks}
+                        deleteWarning={this.state.deleteWarning}
+                        searchBooks={this.searchBooks}
+                        searchedBook={this.state.searchedBook}
+                        authors={authors}
+                        seardchedAuthor={this.state.seardchedAuthor}
+                        fetchAuthors={this.fetchAuthors}
+                        switchThatView={this.switchThatView}
+                        switchView={this.state.switchViews}
+                        submitAuthor={this.submitAuthor}
+                        first={this.state.first}
+                        last={this.state.last} 
+                        about={this.state.about}
+                        url={this.state.url}
+                        warningState={this.state.warningState}
+                        firstName={this.firstName}
+                        lastName={this.lastName}
+                        getUrl={this.url}
+                        getAbout={this.about}
+                        fetchDeleteAuthor={this.fetchDeleteAuthor}
+                        authorDelete={this.authorDelete}
+                        authorOptions={this.state.authorOptions}
+                        deleteAuthorWarning={this.state.deleteAuthorWarning}
+                        handleAddAuthor={this.handleAddAuthor}
+                        newAuthors={this.state.newAuthors}
+                        handleUserAuthorAdd={this.handleUserAuthorAdd}
+                        handleRemoveAuthor={this.handleRemoveAuthor}
+                        />}/>
+                <Route path='/teacher' render={props => <TeacherView {...props}           title={this.getTitle} 
+                        genre={this.getGenre} 
+                        cover={this.getBookUrl} 
+                        description={this.getDescription} 
+                        bookSubmit={this.bookSubmit} 
+                        dropdownOptions={dropdownOptions} 
+                        handleItemClick={this.handleItemClick} 
+                        teacherLogin={this.teacherLogin} 
+                        activeItem={this.state.activeItem}
+                        titleValue={this.state.bookTitle} 
+                        genreValue={this.state.bookGenre} 
+                        coverValue={this.state.bookUrl} 
+                        descriptionValue={this.state.bookDescription}
+                        warning={this.state.warning}
+                        bookDelete={this.bookDelete}
+                        fetchDeleteBook={this.fetchDeleteBook}
+                        books={books}
+                        fetchBooks={this.fetchBooks}
+                        deleteWarning={this.state.deleteWarning}
+                        searchBooks={this.searchBooks}
+                        searchedBook={this.state.searchedBook}
+                        authors={authors}
+                        seardchedAuthor={this.state.seardchedAuthor}
+                        fetchAuthors={this.fetchAuthors}
+                        switchThatView={this.switchThatView}
+                        switchView={this.state.switchViews}
+                        submitAuthor={this.submitAuthor}
+                        first={this.state.first}
+                        last={this.state.last} 
+                        about={this.state.about}
+                        url={this.state.url}
+                        warningState={this.state.warningState}
+                        firstName={this.firstName}
+                        lastName={this.lastName}
+                        getUrl={this.url}
+                        getAbout={this.about}
+                        fetchDeleteAuthor={this.fetchDeleteAuthor}
+                        authorDelete={this.authorDelete}
+                        authorOptions={this.state.authorOptions}
+                        deleteAuthorWarning={this.state.deleteAuthorWarning}
+                        handleAddAuthor={this.handleAddAuthor}
+                        newAuthors={this.state.newAuthors}
+                        handleUserAuthorAdd={this.handleUserAuthorAdd}
+                        handleRemoveAuthor={this.handleRemoveAuthor}
+/>}/>
+                <Route path='/student' render={props => <StudentView {...props} 
+                        dropdownOptions={this.state.dropdownOptions} 
+                        handleItemClick={this.handleItemClick} 
+                        teacherLogin={this.teacherLogin} 
+                        activeItem={this.state.activeItem}
+                        books={books}
+                        isTeacher={this.state.isTeacher}
+                        searchBooks={this.searchBooks}
+                        searchedBook={this.state.searchedBook}
+                        fetchBooks={this.fetchBooks}
+                        authors={authors}
+                        seardchedAuthor={this.state.seardchedAuthor}
+                        fetchAuthors={this.fetchAuthors}
+                        switchThatView={this.switchThatView}
+                        switchViews={this.state.switchViews}
+              />}/>
+
+        {/* {isTeacher ? <StudentView 
         dropdownOptions={this.state.dropdownOptions} 
         handleItemClick={this.handleItemClick} 
         teacherLogin={this.teacherLogin} 
@@ -412,8 +554,10 @@ render() {
           newAuthors={this.state.newAuthors}
           handleUserAuthorAdd={this.handleUserAuthorAdd}
           handleRemoveAuthor={this.handleRemoveAuthor}
-          />}       
+          />}        */}
+          </Switch>
       </div>
+      </Router>
     );
   }
 }
