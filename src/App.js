@@ -208,55 +208,67 @@ class App extends Component {
     if (!data.title || !data.genre || !data.description || !data.coverURL){
         return this.setState({warning: 'warning'})
     } else {
-      fetch('https://galvanize-reads-ski.herokuapp.com/books', {
+      return fetch('http://localhost:3222/books', {
         method: 'POST',
-        mode: 'cors',
         headers: {
           "Content-Type": "application/json; charset=utf-8"
         },
         body: JSON.stringify(data)
       })
       .then(res => res.json())
+      .then(this.checkError)
       //NEED TO ADD ROUTE TO POST TO JOIN TABLE 
-      .then(res => {
-        const bookId = res.book.id
-        return authors.map(author => {
+      .then(bookResult => {
+        const bookId = bookResult.book.id
+        // return authors.map(author => {
           const bookAuthorData = {
             book_id: bookId,
-            author_id: author
+            author_id: authors
           }
-          return fetch(book_authorsJoinUrl, {
+          return fetch('http://localhost:3222/book_authors', {
             method: 'POST',
-            mode: 'cors',
             headers:{
               "Content-Type": "application/json; charset=utf-8"
             },
             body: JSON.stringify(bookAuthorData)
           })
           .then(res => res.json())
-        })
+          .then(this.checkError)
+          .then(data => ({data, bookResult}))
+        // })
       })
       .then(pending => Promise.all(pending))
       .then(res => {
         console.log(res)
-        // if(res.error){
-        //   this.setState({warning: 'warning'})
-        // } else {
-        //   this.setState({
-        //     books: [...this.state.books, res.book], 
-        //     bookTitle: '',
-        //     bookGenre: '',
-        //     bookDescription: '',
-        //     bookUrl: '',
-        //     warning: 'success'
-        //   })
-        //   setTimeout(()=>this.setState({warning: null}), 2000)
-        // }
+        if(res[0].error){
+          this.setState({warning: 'warning'})
+        } else {
+          this.setState({
+            books: [...this.state.books, res.book], 
+            bookTitle: '',
+            bookGenre: '',
+            bookDescription: '',
+            bookUrl: '',
+            warning: 'success'
+          })
+          setTimeout(()=>this.setState({warning: null}), 2000)
+        }
         return res
       })
       .then(this.structureDropdown)
       .then(this.fetchBooks)
+      .catch(error => {
+        this.setState({warning: 'warning', error})
+
+      })
     }
+  }
+
+  checkError = response => {
+    if(response.error){
+      throw new Error('Error submitting to server')
+    }
+    return response
   }
 
   fetchDeleteBook = () => {
