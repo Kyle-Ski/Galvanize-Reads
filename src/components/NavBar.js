@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Segment, Header, Icon, Dropdown, Image } from 'semantic-ui-react'
+import { Menu, Segment, Header, Dropdown, Image } from 'semantic-ui-react'
 
 const style = {
   image: {

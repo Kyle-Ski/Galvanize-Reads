@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, Icon, Image, Divider, Header, Button, Modal, Input, TextArea } from 'semantic-ui-react'
+import { Card, Image, Divider, Button, Input, TextArea } from 'semantic-ui-react'
 import BookAuthors from './BookAuthors'
 const style = {
     card: {
@@ -71,7 +71,7 @@ class Book extends Component {
     render() {
         const{isTeacher} = this.props
         return (
-            <Card style={style.card}>
+            <Card style={style.card} key={this.props.thisKey}>
                 <Card.Content>
                     <Card.Header>{this.state.bookId ? <Input placeholder={this.props.title} value={this.state.bookTitle} onChange={(e) => this.setState({bookTitle: e.target.value})}/> : this.props.title }</Card.Header>
                     <Divider />
@@ -81,7 +81,7 @@ class Book extends Component {
                         <Card.Meta style={style.authors}>
                             Genre: {this.state.bookId ? <Input onChange={(e) => this.setState({bookGenre: e.target.value})} value={this.state.bookGenre} placeholder={this.props.genre} /> : this.props.genre}
                         </Card.Meta>
-                        Author(s) : <br/><BookAuthors authors={this.props.authors} />
+                        Author(s) : <br/><BookAuthors authors={this.props.authors} key={this.props.thisKey}/>
                     </Card.Content>
                 </Card.Content>
                 <Card.Content>

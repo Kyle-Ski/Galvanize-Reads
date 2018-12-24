@@ -7,6 +7,7 @@ const Library = ({books, isTeacher, fetchBooks}) =>  (
     {books.map((book, i) => {
         return (
             <Book 
+                thisKey={i}
                 key={i}
                 title={book.title}
                 genre={book.genre}

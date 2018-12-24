@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input, Button, Form, TextArea, Checkbox, Container, Divider, Message } from 'semantic-ui-react'
+import { Input, Button, Form, TextArea, Container, Divider, Message } from 'semantic-ui-react'
 
 class AddAuthor extends Component {
 

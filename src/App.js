@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import {Loader} from 'semantic-ui-react'
 import './App.css';
-import NavBar from './components/NavBar'
-import Library from './components/Library'
-import TeacherNav from './components/TeacherNav'
 import TeacherView from './components/TeacherView'
 import StudentView from './components/StudentView'
-const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/books'
+// const booksUrl = 'http://localhost:3222/book_authors/books'
+const booksWithAuthorsUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/books'
+const booksUrl = 'https://galvanize-reads-ski.herokuapp.com/books'
 const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
 let book_authorsJoinUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/'
-// book_authorsJoinUrl = 'http://localhost:3222/book_authors'
 class App extends Component {
 
   state = {
@@ -71,7 +69,7 @@ class App extends Component {
       })
       
       this.setState({newAuthors: authors})
-    } 
+    }   
   }
   
 
@@ -102,7 +100,7 @@ class App extends Component {
   }
 
   fetchBooks = () => {
-    return fetch(booksUrl)
+    return fetch(booksWithAuthorsUrl)
       .then(res => res.json())
       .then(data => this.setState({ books: data.books, searchedBook: data.books }))
   }
@@ -151,7 +149,6 @@ class App extends Component {
       })
       .then(res => res.json())
       .then(res => {
-        console.log(res)
         if(res.error){
           this.setState({warningState: 'warning'})
         } else {
@@ -208,7 +205,7 @@ class App extends Component {
     if (!data.title || !data.genre || !data.description || !data.coverURL){
         return this.setState({warning: 'warning'})
     } else {
-      return fetch('http://localhost:3222/books', {
+      return fetch(booksUrl, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json; charset=utf-8"
@@ -225,7 +222,7 @@ class App extends Component {
             book_id: bookId,
             author_id: authors
           }
-          return fetch('http://localhost:3222/book_authors', {
+          return fetch(book_authorsJoinUrl, {
             method: 'POST',
             headers:{
               "Content-Type": "application/json; charset=utf-8"
@@ -233,18 +230,17 @@ class App extends Component {
             body: JSON.stringify(bookAuthorData)
           })
           .then(res => res.json())
-          .then(this.checkError)
+          // .then(this.checkError)
           .then(data => ({data, bookResult}))
         // })
       })
-      .then(pending => Promise.all(pending))
+      // .then(pending => Promise.all(pending))
       .then(res => {
-        console.log(res)
-        if(res[0].error){
+        if(res.error){
           this.setState({warning: 'warning'})
         } else {
           this.setState({
-            books: [...this.state.books, res.book], 
+            books: [...this.state.books, res.bookResult.book], 
             bookTitle: '',
             bookGenre: '',
             bookDescription: '',
@@ -259,7 +255,6 @@ class App extends Component {
       .then(this.fetchBooks)
       .catch(error => {
         this.setState({warning: 'warning', error})
-
       })
     }
   }
@@ -334,7 +329,6 @@ class App extends Component {
       let noSpaces = spaces.replace(/\s/g,'')
       return noSpaces == noTargetSpaces
     })[0]
-    console.log(chosenAuthor)
     if(chosenAuthor !== undefined){
       this.setState({authorToDelete: chosenAuthor.id})
     } 
