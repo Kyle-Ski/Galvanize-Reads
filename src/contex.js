@@ -1,6 +1,8 @@
 import React from "react"
 
 const Context = React.createContext()
+let book_authorsJoinUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/'
+const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
 
 class AppContextProvider extends React.Component {
   state = {
@@ -95,7 +97,7 @@ class AppContextProvider extends React.Component {
   }
 
   fetchBooks = () => {
-    return fetch(booksWithAuthorsUrl)
+    return fetch(this.booksWithAuthorsUrl)
       .then(res => res.json())
       .then(data =>
         this.setState({ books: data.books, searchedBook: data.books })
@@ -103,7 +105,7 @@ class AppContextProvider extends React.Component {
   }
 
   fetchAuthors = () => {
-    return fetch(authorsUrl)
+    return fetch(this.authorsUrl)
       .then(res => res.json())
       .then(data =>
         this.setState({ authors: data.authors, seardchedAuthor: data.authors })
@@ -143,7 +145,7 @@ class AppContextProvider extends React.Component {
     ) {
       return this.setState({ warning: "warning" })
     } else {
-      fetch(authorsUrl, {
+      fetch(this.authorsUrl, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -213,7 +215,7 @@ class AppContextProvider extends React.Component {
       return this.setState({ warning: "warning" })
     } else {
       return (
-        fetch(booksUrl, {
+        fetch(this.booksUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
