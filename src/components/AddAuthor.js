@@ -18,7 +18,7 @@ const AddAuthor = ({
   lastValue,
   urlValue,
   aboutValue,
-  showAdd
+  showAuthorAdd
 }) => {
   return (
     <Container>
@@ -74,7 +74,7 @@ const AddAuthor = ({
           <Form.Field color="green" control={Button}>
             Add Author
           </Form.Field>
-          <Form.Field color="grey" control={Button} onClick={showAdd}>
+          <Form.Field color="grey" control={Button} onClick={showAuthorAdd}>
             Done
           </Form.Field>
         </Form.Group>
@@ -96,6 +96,7 @@ export default () => (
         lastValue={data.last}
         urlValue={data.url}
         aboutValue={data.about}
+        showAuthorAdd={actions.showAuthorAdd}
       />
     )}
   </AppContext.Consumer>

@@ -1,9 +1,12 @@
 import React from "react"
 
 const Context = React.createContext()
+const booksWithAuthorsUrl =
+  "https://galvanize-reads-ski.herokuapp.com/book_authors/books"
+const booksUrl = "https://galvanize-reads-ski.herokuapp.com/books"
+const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 let book_authorsJoinUrl =
   "https://galvanize-reads-ski.herokuapp.com/book_authors/"
-const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 
 class AppContextProvider extends React.Component {
   state = {
@@ -30,7 +33,37 @@ class AppContextProvider extends React.Component {
     authorOptions: "",
     authorToDelete: "",
     deleteAuthorWarning: null,
-    newAuthors: [{ firstName: "", lastName: "", id: "" }]
+    newAuthors: [{ firstName: "", lastName: "", id: "" }],
+    showAdd: false,
+    showDelete: false,
+    showAuthorAdd: false,
+    showAuthorDelete: false
+  }
+
+  componentDidMount() {
+    this.fetchBooks()
+      .then(this.fetchAuthors)
+      .then(this.structureDropdown)
+      .then(this.structureAuthorDropdown)
+      .catch(err => {
+        console.error(err)
+        return this.setState({ error: !null })
+      })
+  }
+
+  showAdd = () => {
+    this.setState({ showAdd: !this.state.showAdd })
+  }
+  showDelete = () => {
+    this.setState({ showDelete: !this.state.showDelete })
+  }
+
+  showAuthorAdd = () => {
+    this.setState({ showAuthorAdd: !this.state.showAuthorAdd })
+  }
+
+  showAuthorDelete = () => {
+    this.setState({ showAuthorDelete: !this.state.showAuthorDelete })
   }
 
   handleRemoveAuthor = idx => e => {
@@ -98,7 +131,7 @@ class AppContextProvider extends React.Component {
   }
 
   fetchBooks = () => {
-    return fetch(this.booksWithAuthorsUrl)
+    return fetch(booksWithAuthorsUrl)
       .then(res => res.json())
       .then(data =>
         this.setState({ books: data.books, searchedBook: data.books })
@@ -106,7 +139,7 @@ class AppContextProvider extends React.Component {
   }
 
   fetchAuthors = () => {
-    return fetch(this.authorsUrl)
+    return fetch(authorsUrl)
       .then(res => res.json())
       .then(data =>
         this.setState({ authors: data.authors, seardchedAuthor: data.authors })
@@ -414,7 +447,8 @@ class AppContextProvider extends React.Component {
             bookDelete: this.bookDelete,
             authorDelete: this.authorDelete,
             handleItemClick: this.handleItemClick,
-            teacherLogin: this.teacherLogin
+            teacherLogin: this.teacherLogin,
+            showAuthorAdd: this.showAuthorAdd
           }
         }}
       >

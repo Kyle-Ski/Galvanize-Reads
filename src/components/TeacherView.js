@@ -7,7 +7,7 @@ import DeleteBook from "./DeleteBook"
 import College from "./College"
 import AddAuthor from "./AddAuthor"
 import DeleteAuthor from "./DeleteAuthor"
-
+import AppContext from "../context"
 class TeacherView extends Component {
   state = {
     showAdd: false,
@@ -133,7 +133,7 @@ class TeacherView extends Component {
         ) : (
           ""
         )}
-        {this.state.showAuthorAdd ? (
+        {this.props.showAuthorAdd ? (
           <AddAuthor
             submitAuthor={this.props.submitAuthor}
             first={this.props.first}
@@ -179,4 +179,8 @@ class TeacherView extends Component {
   }
 }
 
-export default TeacherView
+export default () => (
+  <AppContext.Consumer>
+    {({ data }) => <TeacherView showAuthorAdd={data.showAuthorAdd} />}
+  </AppContext.Consumer>
+)

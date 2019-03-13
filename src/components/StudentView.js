@@ -3,8 +3,9 @@ import {Loader} from 'semantic-ui-react'
 import NavBar from './NavBar'
 import Library from './Library'
 import College from './College';
+import AppContext from "../context"
 
-const StudentView = ({handleItemClick, teacherLogin, activeItem, books, dropdownOptions, isTeacher, searchBooks, searchedBook, fetchBooks, authors, seardchedAuthor, fetchAuthors, switchViews, switchThatView}) => {
+const StudentView = ({handleItemClick, teacherLogin, activeItem, books, dropdownOptions, isTeacher, searchBooks, searchedBook, fetchBooks, seardchedAuthor, switchViews, switchThatView}) => {
     
         if(books){
             return(
@@ -19,5 +20,26 @@ const StudentView = ({handleItemClick, teacherLogin, activeItem, books, dropdown
     
 }
 
-export default StudentView
+export default () => (
+    <AppContext.Consumer>
+        {({ data, actions }) => (
+            <StudentView 
+                handleItemClick={actions.handleItemClick} 
+                teacherLogin={actions.teacherLogin} 
+                activeItem={data.activeItem} 
+                books={data.books} 
+                dropdownOptions={data.dropdownOptions} 
+                isTeacher={data.isTeacher} 
+                searchBooks={actions.searchBooks}
+                searchedBook={data.searchedBook} 
+                fetchBooks={actions.fetchBooks} 
+                authors={data.authors} 
+                seardchedAuthor={data.seardchedAuthor} 
+                fetchAuthors={actions.fetchAuthors} 
+                switchViews={data.switchViews} 
+                switchThatView={actions.switchThatView}
+            />
+            )}
+    </AppContext.Consumer>
+)
 

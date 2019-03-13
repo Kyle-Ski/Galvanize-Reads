@@ -393,20 +393,20 @@ class App extends Component {
       <div className="App">
         {isTeacher ? (
           <StudentView
-            dropdownOptions={this.state.dropdownOptions}
-            handleItemClick={this.handleItemClick}
-            teacherLogin={this.teacherLogin}
-            activeItem={this.state.activeItem}
-            books={books}
-            isTeacher={this.state.isTeacher}
-            searchBooks={this.searchBooks}
-            searchedBook={this.state.searchedBook}
-            fetchBooks={this.fetchBooks}
-            authors={authors}
-            seardchedAuthor={this.state.seardchedAuthor}
-            fetchAuthors={this.fetchAuthors}
-            switchThatView={this.switchThatView}
-            switchViews={this.state.switchViews}
+            // dropdownOptions={this.state.dropdownOptions}
+            // handleItemClick={this.handleItemClick}
+            // teacherLogin={this.teacherLogin}
+            // activeItem={this.state.activeItem}
+            // books={books}
+            // isTeacher={this.state.isTeacher}
+            // searchBooks={this.searchBooks}
+            // searchedBook={this.state.searchedBook}
+            // fetchBooks={this.fetchBooks}
+            // authors={authors}
+            // seardchedAuthor={this.state.seardchedAuthor}
+            // fetchAuthors={this.fetchAuthors}
+            // switchThatView={this.switchThatView}
+            // switchViews={this.state.switchViews}
           />
         ) : (
           <TeacherView

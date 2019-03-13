@@ -1,27 +1,37 @@
-import React from 'react'
-import Author from './Author'
-import { Card } from 'semantic-ui-react';
+import React from "react"
+import Author from "./Author"
+import { Card } from "semantic-ui-react"
+import AppContext from "../context"
 
-const College = ({authors, isTeacher, fetchBooks, fetchAuthors}) =>  ( 
-    <Card.Group centered>
+const College = ({ authors, isTeacher, fetchBooks, fetchAuthors }) => (
+  <Card.Group centered>
     {authors.map((author, i) => {
-        return (
-            <Author 
-                key={i}
-                firstName={author.firstName}
-                lastName={author.lastName}
-                biography={author.biography}
-                img={author.imageURL}
-                isTeacher={isTeacher}
-                id={author.id}
-                fetchBooks={fetchBooks}
-                fetchAuthors={fetchAuthors}
-            />
-        )
-
+      return (
+        <Author
+          key={i}
+          firstName={author.firstName}
+          lastName={author.lastName}
+          biography={author.biography}
+          img={author.imageURL}
+          isTeacher={isTeacher}
+          id={author.id}
+          fetchBooks={fetchBooks}
+          fetchAuthors={fetchAuthors}
+        />
+      )
     })}
-    </Card.Group>
+  </Card.Group>
 )
 
-
-export default College
+export default () => (
+  <AppContext.Consumer>
+    {({ data }) => (
+      <College
+        authors={data.authors}
+        isTeacher={data.isTeacher}
+        fetchBooks={data.fetchBooks}
+        fetchAuthors={data.fetchAuthors}
+      />
+    )}
+  </AppContext.Consumer>
+)
