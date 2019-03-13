@@ -85,7 +85,7 @@ const TeacherView = ({
       ) : (
         ""
       )}
-      {this.state.showDelete ? (
+      {showDelete ? (
         <DeleteBook
           dropdownOptions={dropdownOptions}
           submit={bookDelete}
