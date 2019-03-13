@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import "./App.css"
 import TeacherView from "./components/TeacherView"
 import StudentView from "./components/StudentView"
+import AppContext from "./context"
+
 // const booksUrl = 'http://localhost:3222/book_authors/books'
 const booksWithAuthorsUrl =
   "https://galvanize-reads-ski.herokuapp.com/book_authors/books"
@@ -388,11 +390,15 @@ class App extends Component {
   }
 
   render() {
-    const { isTeacher } = this.state
+    const { isTeacher } = this.props
     return (
       <div className="App">{isTeacher ? <StudentView /> : <TeacherView />}</div>
     )
   }
 }
 
-export default App
+export default () => (
+  <AppContext.Consumer>
+    {({ data }) => <App isTeacher={data.isTeacher} />}
+  </AppContext.Consumer>
+)
