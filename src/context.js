@@ -212,10 +212,10 @@ class AppContextProvider extends React.Component {
   switchThatView = (e, { name }) => {
     switch (name) {
       case "Authors":
-        return this.setState({ switchViews: false })
+        return this.setState({ switchViews: false, activeItem: name })
       case "Books":
         return this.fetchBooks().then(() =>
-          this.setState({ switchViews: true })
+          this.setState({ switchViews: true, activeItem: name })
         )
       default:
         alert("Wait, what did you click on?")
