@@ -73,12 +73,12 @@ export default () => (
         activeItem={data.activeItem}
         teacherLogin={actions.teacherLogin}
         dropdownOptions={data.dropdownOptions}
-        showAdd={data.showAdd}
-        showDelete={data.showDelete}
+        showAdd={actions.showAdd}
+        showDelete={actions.showDelete}
         searchBooks={actions.searchBooks}
         switchThatView={actions.switchThatView}
-        showAuthorAdd={data.showAuthorAdd}
-        showAuthorDelete={data.showAuthorDelete}
+        showAuthorAdd={actions.showAuthorAdd}
+        showAuthorDelete={actions.showAuthorDelete}
       />
     )}
   </AppContext.Consumer>

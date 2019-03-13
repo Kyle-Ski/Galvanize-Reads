@@ -10,9 +10,14 @@ import DeleteAuthor from "./DeleteAuthor"
 import AppContext from "../context"
 
 const TeacherView = ({
+  showAdd,
   showAuthorAdd,
   bookSubmit,
   dropdownOptions,
+  showAddAction,
+  showAuthorAddAction,
+  showAuthorDeleteAction,
+  showDeleteAction,
   handleItemClick,
   teacherLogin,
   activeItem,
@@ -53,20 +58,8 @@ const TeacherView = ({
 }) => {
   return (
     <div className="App">
-      <TeacherNav
-        dropdownOptions={dropdownOptions}
-        handleItemClick={handleItemClick}
-        teacherLogin={teacherLogin}
-        activeItem={activeItem}
-        books={books}
-        showAdd={showAuthorAdd}
-        showDelete={showDelete}
-        searchBooks={searchBooks}
-        switchThatView={switchThatView}
-        showAuthorAdd={showAuthorAdd}
-        showAuthorDelete={showAuthorDelete}
-      />
-      {showAuthorAdd ? (
+      <TeacherNav />
+      {showAdd ? (
         <AddBook
           handleChange={handleChange}
           submit={bookSubmit}
@@ -91,7 +84,7 @@ const TeacherView = ({
           submit={bookDelete}
           fetchDeleteBook={fetchDeleteBook}
           deleteWarning={deleteWarning}
-          showDelete={this.showDelete}
+          showDelete={showDeleteAction}
         />
       ) : (
         ""
@@ -103,7 +96,7 @@ const TeacherView = ({
           submit={authorDelete}
           authorOptions={authorOptions}
           deleteAuthorWarning={deleteAuthorWarning}
-          showDelete={this.showAuthorDelete}
+          showDelete={showAuthorDeleteAction}
         />
       ) : (
         ""
@@ -118,9 +111,14 @@ export default () => (
   <AppContext.Consumer>
     {({ data, actions }) => (
       <TeacherView
+        showAdd={data.showAdd}
+        showAddAction={actions.showAdd}
         showDelete={data.showdelete}
+        showDeleteAction={actions.showDelete}
         showAuthorDelete={data.showAuthorDelete}
+        showAuthorDeleteAction={actions.showAuthorDelete}
         showAuthorAdd={data.showAuthorAdd}
+        showAuthorAddAction={actions.showAuthorAdd}
         bookSubmit={actions.bookSubmit}
         dropdownOptions={data.dropdownOptions}
         handleItemClick={actions.handleItemClick}
