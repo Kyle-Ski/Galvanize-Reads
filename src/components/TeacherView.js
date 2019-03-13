@@ -113,7 +113,7 @@ export default () => (
       <TeacherView
         showAdd={data.showAdd}
         showAddAction={actions.showAdd}
-        showDelete={data.showdelete}
+        showDelete={data.showDelete}
         showDeleteAction={actions.showDelete}
         showAuthorDelete={data.showAuthorDelete}
         showAuthorDeleteAction={actions.showAuthorDelete}

@@ -450,7 +450,9 @@ class AppContextProvider extends React.Component {
             handleItemClick: this.handleItemClick,
             teacherLogin: this.teacherLogin,
             showAuthorAdd: this.showAuthorAdd,
-            showAdd: this.showAdd
+            showAdd: this.showAdd,
+            showDelete: this.showDelete,
+            showAuthorDelete: this.showAuthorDelete
           }
         }}
       >
