@@ -37,7 +37,8 @@ class AppContextProvider extends React.Component {
     showAdd: false,
     showDelete: false,
     showAuthorAdd: false,
-    showAuthorDelete: false
+    showAuthorDelete: false,
+    activeItem: null
   }
 
   componentDidMount() {
