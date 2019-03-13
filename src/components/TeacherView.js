@@ -8,179 +8,157 @@ import College from "./College"
 import AddAuthor from "./AddAuthor"
 import DeleteAuthor from "./DeleteAuthor"
 import AppContext from "../context"
-class TeacherView extends Component {
-  state = {
-    showAdd: false,
-    showDelete: false,
-    showAuthorAdd: false,
-    showAuthorDelete: false
-  }
 
-  showAdd = () => {
-    this.setState({ showAdd: !this.state.showAdd })
-  }
-  showDelete = () => {
-    this.setState({ showDelete: !this.state.showDelete })
-  }
-
-  showAuthorAdd = () => {
-    this.setState({ showAuthorAdd: !this.state.showAuthorAdd })
-  }
-
-  showAuthorDelete = () => {
-    this.setState({ showAuthorDelete: !this.state.showAuthorDelete })
-  }
-
-  handleViewChange = () => {
-    if (this.props.authors) {
-      return (
-        <div className="App">
-          {this.props.switchViews ? (
-            <Library
-              books={this.props.searchedBook}
-              isTeacher={this.props.isTeacher}
-            />
-          ) : (
-            <College
-              authors={this.props.seardchedAuthor}
-              isTeacher={this.props.isTeacher}
-            />
-          )}
-        </div>
-      )
-    } else {
-      return <Loader active />
-    }
-  }
-
-  render() {
-    const {
-      handleRemoveAuthor,
-      handleUserAuthorAdd,
-      newAuthors,
-      handleAddAuthor,
-      warning,
-      handleItemClick,
-      teacherLogin,
-      activeItem,
-      books,
-      dropdownOptions,
-      bookSubmit,
-      bookDelete,
-      title,
-      genre,
-      cover,
-      description,
-      titleValue,
-      genreValue,
-      coverValue,
-      descriptionValue,
-      fetchDeleteBook,
-      deleteWarning,
-      searchBooks,
-      switchThatView,
-      switchView,
-      authorDelete,
-      fetchDeleteAuthor,
-      authorOptions,
-      deleteAuthorWarning
-    } = this.props
-    return (
-      <div className="App">
-        <TeacherNav
-          dropdownOptions={dropdownOptions}
-          handleItemClick={handleItemClick}
-          teacherLogin={teacherLogin}
-          activeItem={activeItem}
-          books={books}
-          showAdd={this.showAdd}
-          showDelete={this.showDelete}
-          searchBooks={searchBooks}
-          switchThatView={switchThatView}
-          showAuthorAdd={this.showAuthorAdd}
-          showAuthorDelete={this.showAuthorDelete}
+const TeacherView = ({
+  showAuthorAdd,
+  bookSubmit,
+  dropdownOptions,
+  handleItemClick,
+  teacherLogin,
+  activeItem,
+  titleValue,
+  genreValue,
+  coverValue,
+  descriptionValue,
+  warning,
+  bookDelete,
+  fetchDeleteBook,
+  books,
+  fetchBooks,
+  deleteWarning,
+  searchBooks,
+  searchedBook,
+  authors,
+  seardchedAuthor,
+  fetchAuthors,
+  switchThatView,
+  switchView,
+  submitAuthor,
+  first,
+  last,
+  about,
+  url,
+  warningState,
+  fetchDeleteAuthor,
+  authorDelete,
+  authorOptions,
+  deleteAuthorWarning,
+  handleAddAuthor,
+  newAuthors,
+  handleUserAuthorAdd,
+  handleRemoveAuthor,
+  handleChange,
+  showDelete,
+  showAuthorDelete
+}) => {
+  return (
+    <div className="App">
+      <TeacherNav
+        dropdownOptions={dropdownOptions}
+        handleItemClick={handleItemClick}
+        teacherLogin={teacherLogin}
+        activeItem={activeItem}
+        books={books}
+        showAdd={showAuthorAdd}
+        showDelete={showDelete}
+        searchBooks={searchBooks}
+        switchThatView={switchThatView}
+        showAuthorAdd={showAuthorAdd}
+        showAuthorDelete={showAuthorDelete}
+      />
+      {showAuthorAdd ? (
+        <AddBook
+          handleChange={handleChange}
+          submit={bookSubmit}
+          titleValue={titleValue}
+          genreValue={genreValue}
+          coverValue={coverValue}
+          descriptionValue={descriptionValue}
+          warningState={warning}
+          showAdd={showAuthorAdd}
+          dropdownOptions={authorOptions}
+          handleAddAuthor={handleAddAuthor}
+          newAuthors={newAuthors}
+          handleUserAuthorAdd={handleUserAuthorAdd}
+          handleRemoveAuthor={handleRemoveAuthor}
         />
-        {this.state.showAdd ? (
-          <AddBook
-            title={title}
-            genre={genre}
-            cover={cover}
-            description={description}
-            submit={bookSubmit}
-            titleValue={titleValue}
-            genreValue={genreValue}
-            coverValue={coverValue}
-            descriptionValue={descriptionValue}
-            warningState={warning}
-            showAdd={this.showAdd}
-            dropdownOptions={authorOptions}
-            handleAddAuthor={handleAddAuthor}
-            newAuthors={newAuthors}
-            handleUserAuthorAdd={handleUserAuthorAdd}
-            handleRemoveAuthor={handleRemoveAuthor}
-          />
-        ) : (
-          ""
-        )}
-        {this.state.showDelete ? (
-          <DeleteBook
-            dropdownOptions={dropdownOptions}
-            submit={bookDelete}
-            fetchDeleteBook={fetchDeleteBook}
-            deleteWarning={deleteWarning}
-            showDelete={this.showDelete}
-          />
-        ) : (
-          ""
-        )}
-        {this.props.showAuthorAdd ? (
-          <AddAuthor
-            submitAuthor={this.props.submitAuthor}
-            first={this.props.first}
-            last={this.props.last}
-            about={this.props.about}
-            url={this.props.url}
-            warningState={this.props.warningState}
-            firstName={this.props.firstName}
-            lastName={this.props.lastName}
-            getUrl={this.props.getUrl}
-            getAbout={this.props.getAbout}
-            showAdd={this.showAuthorAdd}
-          />
-        ) : (
-          ""
-        )}
-        {this.state.showAuthorDelete ? (
-          <DeleteAuthor
-            fetchDeleteAuthor={fetchDeleteAuthor}
-            submit={authorDelete}
-            authorOptions={authorOptions}
-            deleteAuthorWarning={deleteAuthorWarning}
-            showDelete={this.showAuthorDelete}
-          />
-        ) : (
-          ""
-        )}
-        {switchView ? (
-          <Library
-            fetchBooks={this.props.fetchBooks}
-            books={this.props.searchedBook}
-            isTeacher={this.props.isTeacher}
-          />
-        ) : (
-          <College
-            fetchAuthors={this.props.fetchAuthors}
-            authors={this.props.seardchedAuthor}
-            isTeacher={this.props.isTeacher}
-          />
-        )}
-      </div>
-    )
-  }
+      ) : (
+        ""
+      )}
+      {this.state.showDelete ? (
+        <DeleteBook
+          dropdownOptions={dropdownOptions}
+          submit={bookDelete}
+          fetchDeleteBook={fetchDeleteBook}
+          deleteWarning={deleteWarning}
+          showDelete={this.showDelete}
+        />
+      ) : (
+        ""
+      )}
+      {showAuthorAdd ? <AddAuthor /> : ""}
+      {showAuthorDelete ? (
+        <DeleteAuthor
+          fetchDeleteAuthor={fetchDeleteAuthor}
+          submit={authorDelete}
+          authorOptions={authorOptions}
+          deleteAuthorWarning={deleteAuthorWarning}
+          showDelete={this.showAuthorDelete}
+        />
+      ) : (
+        ""
+      )}
+      {switchView ? <Library /> : <College />}
+    </div>
+  )
 }
+// }
 
 export default () => (
   <AppContext.Consumer>
-    {({ data }) => <TeacherView showAuthorAdd={data.showAuthorAdd} />}
+    {({ data, actions }) => (
+      <TeacherView
+        showDelete={data.showdelete}
+        showAuthorDelete={data.showAuthorDelete}
+        showAuthorAdd={data.showAuthorAdd}
+        bookSubmit={actions.bookSubmit}
+        dropdownOptions={data.dropdownOptions}
+        handleItemClick={actions.handleItemClick}
+        teacherLogin={actions.teacherLogin}
+        activeItem={data.activeItem}
+        titleValue={data.bookTitle}
+        genreValue={data.bookGenre}
+        coverValue={data.bookUrl}
+        descriptionValue={data.bookDescription}
+        warning={data.warning}
+        bookDelete={actions.bookDelete}
+        fetchDeleteBook={actions.fetchDeleteBook}
+        books={data.books}
+        fetchBooks={actions.fetchBooks}
+        deleteWarning={data.deleteWarning}
+        searchBooks={actions.searchBooks}
+        searchedBook={data.searchedBook}
+        authors={data.authors}
+        seardchedAuthor={data.seardchedAuthor}
+        fetchAuthors={actions.fetchAuthors}
+        switchThatView={actions.switchThatView}
+        switchView={data.switchViews}
+        submitAuthor={actions.submitAuthor}
+        first={data.first}
+        last={data.last}
+        about={data.about}
+        url={data.url}
+        warningState={data.warningState}
+        fetchDeleteAuthor={actions.fetchDeleteAuthor}
+        authorDelete={actions.authorDelete}
+        authorOptions={data.authorOptions}
+        deleteAuthorWarning={data.deleteAuthorWarning}
+        handleAddAuthor={actions.handleAddAuthor}
+        newAuthors={data.newAuthors}
+        handleUserAuthorAdd={actions.handleUserAuthorAdd}
+        handleRemoveAuthor={actions.handleRemoveAuthor}
+        handleChange={actions.handleChange}
+      />
+    )}
   </AppContext.Consumer>
 )

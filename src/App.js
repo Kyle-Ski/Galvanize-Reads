@@ -388,75 +388,9 @@ class App extends Component {
   }
 
   render() {
-    const { books, isTeacher, authors } = this.state
+    const { isTeacher } = this.state
     return (
-      <div className="App">
-        {isTeacher ? (
-          <StudentView
-            // dropdownOptions={this.state.dropdownOptions}
-            // handleItemClick={this.handleItemClick}
-            // teacherLogin={this.teacherLogin}
-            // activeItem={this.state.activeItem}
-            // books={books}
-            // isTeacher={this.state.isTeacher}
-            // searchBooks={this.searchBooks}
-            // searchedBook={this.state.searchedBook}
-            // fetchBooks={this.fetchBooks}
-            // authors={authors}
-            // seardchedAuthor={this.state.seardchedAuthor}
-            // fetchAuthors={this.fetchAuthors}
-            // switchThatView={this.switchThatView}
-            // switchViews={this.state.switchViews}
-          />
-        ) : (
-          <TeacherView
-            title={this.getTitle}
-            genre={this.getGenre}
-            cover={this.getBookUrl}
-            description={this.getDescription}
-            bookSubmit={this.bookSubmit}
-            dropdownOptions={this.state.dropdownOptions}
-            handleItemClick={this.handleItemClick}
-            teacherLogin={this.teacherLogin}
-            activeItem={this.state.activeItem}
-            titleValue={this.state.bookTitle}
-            genreValue={this.state.bookGenre}
-            coverValue={this.state.bookUrl}
-            descriptionValue={this.state.bookDescription}
-            warning={this.state.warning}
-            bookDelete={this.bookDelete}
-            fetchDeleteBook={this.fetchDeleteBook}
-            books={books}
-            fetchBooks={this.fetchBooks}
-            deleteWarning={this.state.deleteWarning}
-            searchBooks={this.searchBooks}
-            searchedBook={this.state.searchedBook}
-            authors={authors}
-            seardchedAuthor={this.state.seardchedAuthor}
-            fetchAuthors={this.fetchAuthors}
-            switchThatView={this.switchThatView}
-            switchView={this.state.switchViews}
-            submitAuthor={this.submitAuthor}
-            first={this.state.first}
-            last={this.state.last}
-            about={this.state.about}
-            url={this.state.url}
-            warningState={this.state.warningState}
-            firstName={this.firstName}
-            lastName={this.lastName}
-            getUrl={this.url}
-            getAbout={this.about}
-            fetchDeleteAuthor={this.fetchDeleteAuthor}
-            authorDelete={this.authorDelete}
-            authorOptions={this.state.authorOptions}
-            deleteAuthorWarning={this.state.deleteAuthorWarning}
-            handleAddAuthor={this.handleAddAuthor}
-            newAuthors={this.state.newAuthors}
-            handleUserAuthorAdd={this.handleUserAuthorAdd}
-            handleRemoveAuthor={this.handleRemoveAuthor}
-          />
-        )}
-      </div>
+      <div className="App">{isTeacher ? <StudentView /> : <TeacherView />}</div>
     )
   }
 }
