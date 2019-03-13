@@ -1,8 +1,9 @@
 import React from "react"
 
 const Context = React.createContext()
-let book_authorsJoinUrl = 'https://galvanize-reads-ski.herokuapp.com/book_authors/'
-const authorsUrl = 'https://galvanize-reads-ski.herokuapp.com/authors/'
+let book_authorsJoinUrl =
+  "https://galvanize-reads-ski.herokuapp.com/book_authors/"
+const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 
 class AppContextProvider extends React.Component {
   state = {
