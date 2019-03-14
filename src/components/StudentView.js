@@ -5,37 +5,12 @@ import Library from "./Library"
 import College from "./College"
 import AppContext from "../context"
 
-const StudentView = ({
-  handleItemClick,
-  teacherLogin,
-  activeItem,
-  books,
-  dropdownOptions,
-  isTeacher,
-  searchBooks,
-  searchedBook,
-  fetchBooks,
-  seardchedAuthor,
-  switchViews,
-  switchThatView
-}) => {
+const StudentView = ({ books, switchViews }) => {
   if (books) {
     return (
       <div className="App">
-        <NavBar
-          dropdownOptions={dropdownOptions}
-          handleItemClick={handleItemClick}
-          teacherLogin={teacherLogin}
-          activeItem={activeItem}
-          searchBooks={searchBooks}
-          fetchBooks={fetchBooks}
-          switchThatView={switchThatView}
-        />
-        {switchViews ? (
-          <Library books={searchedBook} isTeacher={isTeacher} />
-        ) : (
-          <College authors={seardchedAuthor} isTeacher={isTeacher} />
-        )}
+        <NavBar />
+        {switchViews ? <Library /> : <College />}
       </div>
     )
   } else {
@@ -45,23 +20,8 @@ const StudentView = ({
 
 export default () => (
   <AppContext.Consumer>
-    {({ data, actions }) => (
-      <StudentView
-        handleItemClick={actions.handleItemClick}
-        teacherLogin={actions.teacherLogin}
-        activeItem={data.activeItem}
-        books={data.books}
-        dropdownOptions={data.dropdownOptions}
-        isTeacher={data.isTeacher}
-        searchBooks={actions.searchBooks}
-        searchedBook={data.searchedBook}
-        fetchBooks={actions.fetchBooks}
-        authors={data.authors}
-        seardchedAuthor={data.seardchedAuthor}
-        fetchAuthors={actions.fetchAuthors}
-        switchViews={data.switchViews}
-        switchThatView={actions.switchThatView}
-      />
+    {({ data }) => (
+      <StudentView books={data.books} switchViews={data.switchViews} />
     )}
   </AppContext.Consumer>
 )

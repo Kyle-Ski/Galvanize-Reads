@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import { Menu, Segment, Header, Dropdown, Image } from "semantic-ui-react"
 import AppContext from "../context"
 
