@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import {
   Input,
   Button,
@@ -19,15 +19,12 @@ const AddBook = ({
   dropdownOptions,
   warningState,
   submit,
-  title,
-  genre,
-  cover,
-  description,
   titleValue,
   genreValue,
   coverValue,
   descriptionValue,
-  showAdd
+  showAdd,
+  handleChange
 }) => {
   return (
     <Container>
@@ -35,21 +32,24 @@ const AddBook = ({
       <Form className={warningState} onSubmit={submit}>
         <Form.Group widths="equal">
           <Form.Field
-            onChange={title}
+            onChange={handleChange}
+            name="bookTitle"
             control={Input}
             value={titleValue}
             label="Title"
             placeholder="Title"
           />
           <Form.Field
-            onChange={genre}
+            onChange={handleChange}
+            name="bookGenre"
             control={Input}
             value={genreValue}
             label="Genre"
             placeholder="Genre"
           />
           <Form.Field
-            onChange={cover}
+            onChange={handleChange}
+            name="bookUrl"
             control={Input}
             value={coverValue}
             label="Cover Url"
@@ -61,7 +61,7 @@ const AddBook = ({
           + Another Author
         </Form.Field>
         {newAuthors.map((author, idx) => (
-          <div>
+          <div key={idx}>
             <Form.Field
               control={Dropdown}
               onChange={handleUserAuthorAdd(idx)}
@@ -82,7 +82,8 @@ const AddBook = ({
         ))}
         <Form.Group inline />
         <Form.Field
-          onChange={description}
+          onChange={handleChange}
+          name="bookDescription"
           control={TextArea}
           value={descriptionValue}
           label="Description"

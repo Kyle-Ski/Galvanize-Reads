@@ -52,20 +52,12 @@ class AppContextProvider extends React.Component {
       })
   }
 
-  showAdd = () => {
-    this.setState({ showAdd: !this.state.showAdd })
-  }
-  showDelete = () => {
-    this.setState({ showDelete: !this.state.showDelete })
-  }
-
-  showAuthorAdd = () => {
+  showAdd = () => this.setState({ showAdd: !this.state.showAdd })
+  showDelete = () => this.setState({ showDelete: !this.state.showDelete })
+  showAuthorAdd = () =>
     this.setState({ showAuthorAdd: !this.state.showAuthorAdd })
-  }
-
-  showAuthorDelete = () => {
+  showAuthorDelete = () =>
     this.setState({ showAuthorDelete: !this.state.showAuthorDelete })
-  }
 
   handleRemoveAuthor = idx => e => {
     e.preventDefault()
@@ -180,7 +172,7 @@ class AppContextProvider extends React.Component {
     ) {
       return this.setState({ warning: "warning" })
     } else {
-      fetch(this.authorsUrl, {
+      fetch(authorsUrl, {
         method: "POST",
         mode: "cors",
         headers: {
@@ -206,6 +198,7 @@ class AppContextProvider extends React.Component {
         })
         .then(this.structureAuthorDropdown)
         .then(this.fetchAuthors)
+        .catch(err => console.error(err))
     }
   }
 
@@ -233,7 +226,7 @@ class AppContextProvider extends React.Component {
     if (chosenBook !== undefined) {
       this.setState({ searchedBook: chosenBook })
     } else {
-      console.log("else")
+      return
     }
   }
 
@@ -250,7 +243,7 @@ class AppContextProvider extends React.Component {
       return this.setState({ warning: "warning" })
     } else {
       return (
-        fetch(this.booksUrl, {
+        fetch(booksUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8"
@@ -263,6 +256,9 @@ class AppContextProvider extends React.Component {
           .then(bookResult => {
             const bookId = bookResult.book.id
             // return authors.map(author => {
+            if (authors.length === 1) {
+              authors = authors[0]
+            }
             const bookAuthorData = {
               book_id: bookId,
               author_id: authors
@@ -277,7 +273,9 @@ class AppContextProvider extends React.Component {
               })
                 .then(res => res.json())
                 // .then(this.checkError)
-                .then(data => ({ data, bookResult }))
+                .then(data => {
+                  return { data }
+                })
             )
             // })
           })
@@ -286,17 +284,18 @@ class AppContextProvider extends React.Component {
             if (res.error) {
               this.setState({ warning: "warning" })
             } else {
-              this.setState({
-                books: [...this.state.books, res.bookResult.book],
-                bookTitle: "",
-                bookGenre: "",
-                bookDescription: "",
-                bookUrl: "",
-                warning: "success"
+              return this.fetchBooks().then(res => {
+                this.setState({
+                  bookTitle: "",
+                  bookGenre: "",
+                  bookDescription: "",
+                  bookUrl: "",
+                  warning: "success"
+                })
+                setTimeout(() => this.setState({ warning: null }), 2000)
+                return res
               })
-              setTimeout(() => this.setState({ warning: null }), 2000)
             }
-            return res
           })
           .then(this.structureDropdown)
           .then(this.fetchBooks)

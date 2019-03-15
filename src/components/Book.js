@@ -77,7 +77,7 @@ class Book extends Component {
   render() {
     const { isTeacher } = this.props
     return (
-      <Card style={style.card} key={this.props.thisKey}>
+      <Card style={style.card}>
         <Card.Content>
           <Card.Header>
             {this.state.bookId ? (

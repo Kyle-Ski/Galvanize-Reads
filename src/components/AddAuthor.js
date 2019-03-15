@@ -13,7 +13,7 @@ import AppContext from "../context"
 const AddAuthor = ({
   handleChange,
   warningState,
-  submitAuthor,
+  submit,
   firstValue,
   lastValue,
   urlValue,
@@ -23,7 +23,7 @@ const AddAuthor = ({
   return (
     <Container>
       <Divider />
-      <Form className={warningState} onSubmit={submitAuthor}>
+      <Form className={warningState} onSubmit={submit}>
         <Form.Group widths="equal">
           <Form.Field
             onChange={handleChange}
@@ -71,9 +71,14 @@ const AddAuthor = ({
           list={["You may have not filled out all the fields."]}
         />
         <Form.Group inline>
-          <Form.Field color="green" control={Button}>
+          <Form.Button
+            color="green"
+            control={Button}
+            // onClick={() => console.log("DOOOO ITTTT")}
+            type="submit"
+          >
             Add Author
-          </Form.Field>
+          </Form.Button>
           <Form.Field color="grey" control={Button} onClick={showAuthorAdd}>
             Done
           </Form.Field>

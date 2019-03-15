@@ -15,8 +15,8 @@ const Library = ({ books, isTeacher, fetchBooks }) => (
           description={book.description}
           img={book.coverURL}
           authors={book.authors}
-          isTeacher={isTeacher}
           id={book.id}
+          isTeacher={isTeacher}
           fetchBooks={fetchBooks}
         />
       )
@@ -28,7 +28,7 @@ export default () => (
   <AppContext.Consumer>
     {({ data, actions }) => (
       <Library
-        books={data.books}
+        books={data.searchedBook}
         isTeacher={data.isTeacher}
         fetchBooks={actions.fetchBooks}
       />
