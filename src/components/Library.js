@@ -1,29 +1,37 @@
-import React from 'react'
-import Book from './Book'
-import { Card } from 'semantic-ui-react';
+import React from "react"
+import Book from "./Book"
+import { Card } from "semantic-ui-react"
+import AppContext from "../context"
 
-const Library = ({books, isTeacher, fetchBooks}) =>  ( 
-    <Card.Group centered>
+const Library = ({ books, isTeacher, fetchBooks }) => (
+  <Card.Group centered>
     {books.map((book, i) => {
-        return (
-            <Book 
-                thisKey={i}
-                key={i}
-                title={book.title}
-                genre={book.genre}
-                description={book.description}
-                img={book.coverURL}
-                authors={book.authors}
-                isTeacher={isTeacher}
-                id={book.id}
-                fetchBooks={fetchBooks}
-                authors={book.authors}
-            />
-        )
-
+      return (
+        <Book
+          thisKey={i}
+          key={i}
+          title={book.title}
+          genre={book.genre}
+          description={book.description}
+          img={book.coverURL}
+          authors={book.authors}
+          id={book.id}
+          isTeacher={isTeacher}
+          fetchBooks={fetchBooks}
+        />
+      )
     })}
-    </Card.Group>
+  </Card.Group>
 )
 
-
-export default Library
+export default () => (
+  <AppContext.Consumer>
+    {({ data, actions }) => (
+      <Library
+        books={data.searchedBook}
+        isTeacher={data.isTeacher}
+        fetchBooks={actions.fetchBooks}
+      />
+    )}
+  </AppContext.Consumer>
+)
