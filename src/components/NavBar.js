@@ -17,7 +17,8 @@ const NavBar = ({
   dropdownOptions,
   searchBooks,
   switchThatView,
-  teacherLogin
+  teacherLogin,
+  modalOpen
 }) => {
   return (
     <Segment inverted>
@@ -48,7 +49,7 @@ const NavBar = ({
           <Menu.Item
             name="Teacher Login"
             active={activeItem === "Teacher Login"}
-            onClick={teacherLogin}
+            onClick={modalOpen}
             color="olive"
           />
           <Menu.Item>
@@ -77,6 +78,7 @@ export default () => (
         dropdownOptions={data.dropdownOptions}
         searchBooks={actions.searchBooks}
         switchThatView={actions.switchThatView}
+        modalOpen={actions.handleOpen}
       />
     )}
   </AppContext.Consumer>

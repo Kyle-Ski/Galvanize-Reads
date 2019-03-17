@@ -4,12 +4,14 @@ import NavBar from "./NavBar"
 import Library from "./Library"
 import College from "./College"
 import AppContext from "../context"
+import Login from "./Login"
 
 const StudentView = ({ books, switchViews }) => {
   if (books) {
     return (
       <div className="App">
         <NavBar />
+        <Login />
         {switchViews ? <Library /> : <College />}
       </div>
     )
