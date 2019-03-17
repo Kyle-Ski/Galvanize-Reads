@@ -38,18 +38,31 @@ class AppContextProvider extends React.Component {
     showDelete: false,
     showAuthorAdd: false,
     showAuthorDelete: false,
-    activeItem: null
+    activeItem: null,
+    modalOpen: false
   }
 
-  componentDidMount() {
-    this.fetchBooks()
-      .then(this.fetchAuthors)
-      .then(this.structureDropdown)
-      .then(this.structureAuthorDropdown)
-      .catch(err => {
-        console.error(err)
-        return this.setState({ error: !null })
-      })
+  handleOpen = () => this.setState({ modalOpen: true })
+
+  handleClose = () => this.setState({ modalOpen: false })
+
+  teacherLogin = (e, { name }) => {
+    switch (name) {
+      case "login":
+        this.setState({
+          isTeacher: !this.state.isTeacher,
+          modalOpen: false
+        })
+        break
+      case "back":
+        this.setState({ modalOpen: false })
+        break
+      case "Logout":
+        this.setState({ isTeacher: !this.state.isTeacher })
+        break
+      default:
+        this.setState({ modalOpen: false })
+    }
   }
 
   showAdd = () => this.setState({ showAdd: !this.state.showAdd })
@@ -59,10 +72,12 @@ class AppContextProvider extends React.Component {
   showAuthorDelete = () =>
     this.setState({ showAuthorDelete: !this.state.showAuthorDelete })
 
-  handleRemoveAuthor = idx => e => {
+  handleRemoveAuthor = index => e => {
     e.preventDefault()
     this.setState({
-      newAuthors: this.state.newAuthors.filter((s, sidx) => idx !== sidx)
+      newAuthors: this.state.newAuthors.filter(
+        (item, subIndex) => index !== subIndex
+      )
     })
   }
 
@@ -75,7 +90,7 @@ class AppContextProvider extends React.Component {
     })
   }
 
-  handleUserAuthorAdd = idx => evt => {
+  handleUserAuthorAdd = index => evt => {
     if (!evt.target.type) {
       const targetSpaces = evt.target.innerText
       const noTargetSpaces = targetSpaces.replace(/\s/g, "")
@@ -84,8 +99,8 @@ class AppContextProvider extends React.Component {
         let noSpaces = spaces.replace(/\s/g, "")
         return noSpaces == noTargetSpaces
       })[0]
-      const authors = this.state.newAuthors.map((author, sidx) => {
-        if (idx !== sidx) {
+      const authors = this.state.newAuthors.map((author, subIndex) => {
+        if (index !== subIndex) {
           return author
         } else {
           return {
@@ -150,11 +165,6 @@ class AppContextProvider extends React.Component {
       })
   }
 
-  firstName = e => this.setState({ first: e.target.value })
-  lastName = e => this.setState({ last: e.target.value })
-  url = e => this.setState({ url: e.target.value })
-  about = e => this.setState({ about: e.target.value })
-
   submitAuthor = e => {
     e.preventDefault()
     const currentAuthors = this.state.authors
@@ -215,9 +225,6 @@ class AppContextProvider extends React.Component {
         break
     }
   }
-
-  close = () => this.setState({ open: false })
-  open = () => this.setState({ open: true })
 
   searchBooks = e => {
     const chosenBook = this.state.books.filter(
@@ -391,30 +398,7 @@ class AppContextProvider extends React.Component {
     }
   }
 
-  getTitle = e => {
-    this.setState({ bookTitle: e.target.value })
-  }
-
-  getGenre = e => {
-    this.setState({ bookGenre: e.target.value })
-  }
-
-  getBookUrl = e => {
-    this.setState({ bookUrl: e.target.value })
-  }
-
-  getDescription = e => {
-    this.setState({ bookDescription: e.target.value })
-  }
-
   handleItemClick = (e, { name }) => this.setState({ activeItem: name })
-
-  teacherLogin = (e, { name }) => {
-    this.setState({
-      isTeacher: !this.state.isTeacher,
-      activeItem: name
-    })
-  }
 
   handleChange = e =>
     this.setState({
@@ -437,8 +421,6 @@ class AppContextProvider extends React.Component {
             handleChange: this.handleChange,
             submitAuthor: this.submitAuthor,
             switchThatView: this.switchThatView,
-            close: this.close,
-            open: this.open,
             searchBooks: this.searchBooks,
             bookSubmit: this.bookSubmit,
             checkError: this.checkError,
@@ -451,7 +433,9 @@ class AppContextProvider extends React.Component {
             showAuthorAdd: this.showAuthorAdd,
             showAdd: this.showAdd,
             showDelete: this.showDelete,
-            showAuthorDelete: this.showAuthorDelete
+            showAuthorDelete: this.showAuthorDelete,
+            handleOpen: this.handleOpen,
+            handleClose: this.handleClose
           }
         }}
       >
