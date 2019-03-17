@@ -2,10 +2,12 @@ import React from "react"
 import {
   Button,
   Form,
-  Container,
   Divider,
   Message,
-  Dropdown
+  Dropdown,
+  Modal,
+  Icon,
+  Header
 } from "semantic-ui-react"
 import AppContext from "../context"
 const DeleteAuthor = ({
@@ -16,44 +18,52 @@ const DeleteAuthor = ({
   showDelete
 }) => {
   return (
-    <Container>
-      <Divider />
-      <Form className={deleteAuthorWarning} onSubmit={fetchDeleteAuthor}>
-        <Form.Group widths="equal">
-          <Dropdown
-            onChange={submit}
-            search
-            selection
-            options={authorOptions}
-            label="Select an Author to Delete"
-            placeholder="Author.."
-          />
-        </Form.Group>
+    <Modal open={showDelete} onClose={showDelete} basic size="small">
+      <Header icon="browser" content="Remove Author" />
+      <Modal.Content>
+        <Divider />
+        <Form className={deleteAuthorWarning} onSubmit={fetchDeleteAuthor}>
+          <Form.Group widths="equal">
+            <Dropdown
+              onChange={submit}
+              search
+              selection
+              options={authorOptions}
+              label="Select an Author to Delete"
+              placeholder="Author.."
+            />
+          </Form.Group>
 
-        <Message
-          success
-          header="Author deleted!"
-          content="You have deleted an Author from the list!"
-        />
-        <Message
-          warning
-          header="Look out!"
-          list={[
-            "Something may have went wrong.",
-            "Check to see if the author you removed is still here."
-          ]}
-        />
-        <Form.Group inline>
-          <Form.Field color="red" control={Button}>
-            Remove Author
-          </Form.Field>
-          <Form.Field color="grey" control={Button} onClick={showDelete}>
-            Done
-          </Form.Field>
-        </Form.Group>
-      </Form>
-      <Divider />
-    </Container>
+          <Message
+            success
+            header="Author deleted!"
+            content="You have deleted an Author from the list!"
+          />
+          <Message
+            warning
+            header="Look out!"
+            list={[
+              "Something may have went wrong.",
+              "Check to see if the author you removed is still here."
+            ]}
+          />
+          <Form.Group inline>
+            <Form.Field color="red" control={Button}>
+              Remove Author
+            </Form.Field>
+            <Form.Field color="grey" control={Button} onClick={showDelete}>
+              Done
+            </Form.Field>
+          </Form.Group>
+        </Form>
+        <Divider />
+      </Modal.Content>
+      <Modal.Actions>
+        <Button value={2} name="back" color="red" onClick={showDelete}>
+          <Icon name="arrow alternate circle left outline" /> Back
+        </Button>
+      </Modal.Actions>
+    </Modal>
   )
 }
 
