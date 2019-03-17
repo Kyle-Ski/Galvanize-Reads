@@ -20,8 +20,7 @@ const AddAuthor = ({
   lastValue,
   urlValue,
   aboutValue,
-  showAuthorAdd,
-  showAdd
+  showAuthorAdd
 }) => {
   return (
     <Modal open={showAuthorAdd} onClose={showAuthorAdd} basic size="small">
@@ -100,7 +99,6 @@ export default () => (
     {({ data, actions }) => (
       <AddAuthor
         warningState={data.warningState}
-        showAdd={actions.showAdd}
         submit={actions.submitAuthor}
         handleChange={actions.handleChange}
         firstValue={data.first}
