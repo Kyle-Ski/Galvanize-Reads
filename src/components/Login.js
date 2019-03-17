@@ -1,7 +1,7 @@
-import React, { Component } from "react"
+import React from "react"
 import { Button, Header, Icon, Modal, Form } from "semantic-ui-react"
 import AppContext from "../context"
-const LoginModal = ({ handleClose, handleOpen, modalOpen }) => {
+const LoginModal = ({ handleClose, modalOpen }) => {
   return (
     <Modal open={modalOpen} onClose={handleClose} basic size="small">
       <Header icon="browser" content="Faculty Login" />
