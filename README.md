@@ -1,16 +1,18 @@
 # Welcome to Galvanize Reads!
-* Here is my [Deployed site](https://galvanize-reads-ski.surge.sh/)
-* Here is the repp for the [database](https://github.com/Kyle-Ski/Galvanize-Reads-Database)
-* Here is the [deployed database](https://galvanize-reads-ski.herokuapp.com/)
+
+- Here is my [Deployed site](https://galvanize-reads-ski.surge.sh/)
+  _To use the "Teacher Login" simplyclick `Login` when you are prompted to enter an email and password_
+- Here is the repo for the [database](https://github.com/Kyle-Ski/Galvanize-Reads-Database)
+- Here is the [deployed database](https://galvanize-reads-ski.herokuapp.com/)
 
 ## Background
 
 **Galvanize Reads** is a book catalog service that stores a list of recommended technology books. You are building a web app for them. It should allow you to:
 
-* List books and authors
-* Add books and authors
-* Modify books and authors
-* Remove books and authors
+- List books and authors
+- Add books and authors
+- Modify books and authors
+- Remove books and authors
 
 There are some additional features, such as search, that are nice-to-haves, but a lower priority than the core features. The folks at Galvanize Reads have provided you some sample data from their existing registry that you can use for development.
 
@@ -61,18 +63,18 @@ ID,Book Title,Book Genre,Book Description,Book Cover URL,Author 1 First Name,Aut
 
 ## Notes
 
-* You can use a styling library if you'd like
-* You can use server-side templating or AJAX/RESTful services. There are trade-offs with each.
-* You can use a raw database driver, a query builder, or an ORM for your database connection. A query builder, such as Knex, is recommended.
-* Use feature-branch workflows. You should end up with one commit for each feature.
-* Deploy your work
+- You can use a styling library if you'd like
+- You can use server-side templating or AJAX/RESTful services. There are trade-offs with each.
+- You can use a raw database driver, a query builder, or an ORM for your database connection. A query builder, such as Knex, is recommended.
+- Use feature-branch workflows. You should end up with one commit for each feature.
+- Deploy your work
 
 ## How to Submit Your Assessment
 
 Fork/clone [this repo](https://github.com/gSchool/galvanize-reads).
 Add a README to your project that has:
 
-* A link to your deployed site
-* Link to your tracker project
-* Links to any repos you used with updated code
-* A data model of the final data model of the project
+- A link to your deployed site
+- Link to your tracker project
+- Links to any repos you used with updated code
+- A data model of the final data model of the project
