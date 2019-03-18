@@ -15,10 +15,11 @@ const DeleteBook = ({
   dropdownOptions,
   fetchDeleteBook,
   deleteWarning,
-  showDelete
+  showDelete,
+  showDeleteAction
 }) => {
   return (
-    <Modal open={showDelete} onClose={showDelete} basic size="small">
+    <Modal open={showDelete} basic size="small">
       <Header icon="browser" content="Delete Book" />
       <Modal.Content>
         <Divider />
@@ -51,15 +52,12 @@ const DeleteBook = ({
             <Form.Field color="red" control={Button}>
               Delete Book
             </Form.Field>
-            <Form.Field color="grey" control={Button} onClick={showDelete}>
-              Done
-            </Form.Field>
           </Form.Group>
         </Form>
         <Divider />
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={showDelete}>
+        <Button name="back" color="red" onClick={showDeleteAction}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>
@@ -75,7 +73,8 @@ export default () => (
         submit={actions.bookDelete}
         fetchDeleteBook={actions.fetchDeleteBook}
         deleteWarning={data.deleteWarning}
-        showDelete={actions.showDelete}
+        showDelete={data.showDelete}
+        showDeleteAction={actions.showDelete}
       />
     )}
   </AppContext.Consumer>
