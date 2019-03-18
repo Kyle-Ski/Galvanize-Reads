@@ -2,11 +2,16 @@ import React from "react"
 
 const Context = React.createContext()
 const booksWithAuthorsUrl =
-  "https://galvanize-reads-ski.herokuapp.com/book_authors/books"
-const booksUrl = "https://galvanize-reads-ski.herokuapp.com/books"
+  "https://galvanize-reads-ski.herokuapp.com/book_authors/books/"
+const booksUrl = "https://galvanize-reads-ski.herokuapp.com/books/"
 const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 let book_authorsJoinUrl =
   "https://galvanize-reads-ski.herokuapp.com/book_authors/"
+
+// const booksWithAuthorsUrl = "http://localhost:3222/book_authors/books"
+// const booksUrl = "http://localhost:3222/books/"
+// const authorsUrl = "http://localhost:3222/authors/"
+// let book_authorsJoinUrl = "http://localhost:3222/book_authors/"
 
 class AppContextProvider extends React.Component {
   state = {
@@ -258,14 +263,11 @@ class AppContextProvider extends React.Component {
           body: JSON.stringify(data)
         })
           .then(res => res.json())
-          .then(this.checkError)
+          // .then(this.checkError)
           //NEED TO ADD ROUTE TO POST TO JOIN TABLE
           .then(bookResult => {
             const bookId = bookResult.book.id
             // return authors.map(author => {
-            if (authors.length === 1) {
-              authors = authors[0]
-            }
             const bookAuthorData = {
               book_id: bookId,
               author_id: authors
@@ -281,6 +283,7 @@ class AppContextProvider extends React.Component {
                 .then(res => res.json())
                 // .then(this.checkError)
                 .then(data => {
+                  console.log("posted to join..")
                   return { data }
                 })
             )
@@ -321,14 +324,10 @@ class AppContextProvider extends React.Component {
   }
 
   fetchDeleteBook = () => {
-    fetch(
-      "https://galvanize-reads-ski.herokuapp.com/books/" +
-        this.state.bookToDelete,
-      {
-        method: "DELETE",
-        mode: "cors"
-      }
-    )
+    fetch(booksUrl + this.state.bookToDelete, {
+      method: "DELETE",
+      mode: "cors"
+    })
       .then(response => response.json())
       .then(res => {
         if (res.error) {
