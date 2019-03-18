@@ -97,7 +97,7 @@ class AppContextProvider extends React.Component {
       const chosenAuthor = this.state.authors.filter(author => {
         let spaces = `${author.firstName} ${author.lastName}`
         let noSpaces = spaces.replace(/\s/g, "")
-        return noSpaces == noTargetSpaces
+        return noSpaces === noTargetSpaces
       })[0]
       const authors = this.state.newAuthors.map((author, subIndex) => {
         if (index !== subIndex) {
@@ -376,7 +376,7 @@ class AppContextProvider extends React.Component {
     const chosenAuthor = this.state.authors.filter(author => {
       let spaces = `${author.firstName} ${author.lastName}`
       let noSpaces = spaces.replace(/\s/g, "")
-      return noSpaces == noTargetSpaces
+      return noSpaces === noTargetSpaces
     })[0]
     if (chosenAuthor !== undefined) {
       this.setState({ authorToDelete: chosenAuthor.id })

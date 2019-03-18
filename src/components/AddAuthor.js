@@ -103,7 +103,7 @@ export default () => (
         lastValue={data.last}
         urlValue={data.url}
         aboutValue={data.about}
-        showAuthorAdd={actions.showAuthorAdd}
+        showAuthorAdd={data.showAuthorAdd}
         showAuthorAddAction={actions.showAuthorAdd}
       />
     )}
