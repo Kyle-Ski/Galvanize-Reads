@@ -2,8 +2,8 @@ import React from "react"
 
 const Context = React.createContext()
 const booksWithAuthorsUrl =
-  "https://galvanize-reads-ski.herokuapp.com/book_authors/books"
-const booksUrl = "https://galvanize-reads-ski.herokuapp.com/books"
+  "https://galvanize-reads-ski.herokuapp.com/book_authors/books/"
+const booksUrl = "https://galvanize-reads-ski.herokuapp.com/books/"
 const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 let book_authorsJoinUrl =
   "https://galvanize-reads-ski.herokuapp.com/book_authors/"
@@ -249,67 +249,56 @@ class AppContextProvider extends React.Component {
     if (!data.title || !data.genre || !data.description || !data.coverURL) {
       return this.setState({ warning: "warning" })
     } else {
-      return (
-        fetch(booksUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          body: JSON.stringify(data)
+      return fetch(booksUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(this.checkError)
+        .then(bookResult => {
+          const bookId = bookResult.book.id
+          const bookAuthorData = {
+            book_id: bookId,
+            author_id: authors
+          }
+          return fetch(book_authorsJoinUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(bookAuthorData)
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log("posted to join..")
+              return { data }
+            })
         })
-          .then(res => res.json())
-          .then(this.checkError)
-          //NEED TO ADD ROUTE TO POST TO JOIN TABLE
-          .then(bookResult => {
-            const bookId = bookResult.book.id
-            // return authors.map(author => {
-            if (authors.length === 1) {
-              authors = authors[0]
-            }
-            const bookAuthorData = {
-              book_id: bookId,
-              author_id: authors
-            }
-            return (
-              fetch(book_authorsJoinUrl, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify(bookAuthorData)
+        .then(res => {
+          if (res.error) {
+            this.setState({ warning: "warning" })
+          } else {
+            return this.fetchBooks().then(res => {
+              this.setState({
+                bookTitle: "",
+                bookGenre: "",
+                bookDescription: "",
+                bookUrl: "",
+                warning: "success"
               })
-                .then(res => res.json())
-                // .then(this.checkError)
-                .then(data => {
-                  return { data }
-                })
-            )
-            // })
-          })
-          // .then(pending => Promise.all(pending))
-          .then(res => {
-            if (res.error) {
-              this.setState({ warning: "warning" })
-            } else {
-              return this.fetchBooks().then(res => {
-                this.setState({
-                  bookTitle: "",
-                  bookGenre: "",
-                  bookDescription: "",
-                  bookUrl: "",
-                  warning: "success"
-                })
-                setTimeout(() => this.setState({ warning: null }), 2000)
-                return res
-              })
-            }
-          })
-          .then(this.structureDropdown)
-          .then(this.fetchBooks)
-          .catch(error => {
-            this.setState({ warning: "warning", error })
-          })
-      )
+              setTimeout(() => this.setState({ warning: null }), 2000)
+              return res
+            })
+          }
+        })
+        .then(this.structureDropdown)
+        .then(this.fetchBooks)
+        .catch(error => {
+          this.setState({ warning: "warning", error })
+        })
     }
   }
 
@@ -321,14 +310,10 @@ class AppContextProvider extends React.Component {
   }
 
   fetchDeleteBook = () => {
-    fetch(
-      "https://galvanize-reads-ski.herokuapp.com/books/" +
-        this.state.bookToDelete,
-      {
-        method: "DELETE",
-        mode: "cors"
-      }
-    )
+    fetch(booksUrl + this.state.bookToDelete, {
+      method: "DELETE",
+      mode: "cors"
+    })
       .then(response => response.json())
       .then(res => {
         if (res.error) {

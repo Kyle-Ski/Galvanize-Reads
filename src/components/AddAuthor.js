@@ -20,10 +20,11 @@ const AddAuthor = ({
   lastValue,
   urlValue,
   aboutValue,
-  showAuthorAdd
+  showAuthorAdd,
+  showAuthorAddAction
 }) => {
   return (
-    <Modal open={showAuthorAdd} onClose={showAuthorAdd} basic size="small">
+    <Modal open={showAuthorAdd} basic size="small">
       <Header icon="browser" content="Add Author" />
       <Modal.Content>
         <Divider />
@@ -78,15 +79,12 @@ const AddAuthor = ({
             <Form.Button color="green" control={Button} type="submit">
               Add Author
             </Form.Button>
-            <Form.Field color="grey" control={Button} onClick={showAuthorAdd}>
-              Done
-            </Form.Field>
           </Form.Group>
         </Form>
         <Divider />
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={showAuthorAdd}>
+        <Button value={2} name="back" color="red" onClick={showAuthorAddAction}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>
@@ -106,6 +104,7 @@ export default () => (
         urlValue={data.url}
         aboutValue={data.about}
         showAuthorAdd={actions.showAuthorAdd}
+        showAuthorAddAction={actions.showAuthorAdd}
       />
     )}
   </AppContext.Consumer>

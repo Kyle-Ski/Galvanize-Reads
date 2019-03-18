@@ -26,10 +26,11 @@ const AddBook = ({
   coverValue,
   descriptionValue,
   showAdd,
-  handleChange
+  handleChange,
+  showAddAction
 }) => {
   return (
-    <Modal open={showAdd} onClose={showAdd} basic size="small">
+    <Modal open={showAdd} basic size="small">
       <Header icon="browser" content="Add Book" />
       <Modal.Content>
         <Divider />
@@ -108,15 +109,12 @@ const AddBook = ({
             <Form.Field color="green" control={Button}>
               Add Book
             </Form.Field>
-            <Form.Field color="grey" control={Button} onClick={showAdd}>
-              Done
-            </Form.Field>
           </Form.Group>
         </Form>
         <Divider />
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={showAdd}>
+        <Button name="back" color="red" onClick={showAddAction}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>
@@ -135,7 +133,8 @@ export default () => (
         coverValue={data.bookUrl}
         descriptionValue={data.bookDescription}
         warningState={data.warning}
-        showAdd={actions.showAdd}
+        showAddAction={actions.showAdd}
+        showAdd={data.showAdd}
         dropdownOptions={data.authorOptions}
         handleAddAuthor={actions.handleAddAuthor}
         newAuthors={data.newAuthors}

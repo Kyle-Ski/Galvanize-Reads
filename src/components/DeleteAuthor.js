@@ -15,10 +15,11 @@ const DeleteAuthor = ({
   authorOptions,
   fetchDeleteAuthor,
   deleteAuthorWarning,
-  showDelete
+  showDelete,
+  showDeleteAction
 }) => {
   return (
-    <Modal open={showDelete} onClose={showDelete} basic size="small">
+    <Modal open={showDelete} basic size="small">
       <Header icon="browser" content="Remove Author" />
       <Modal.Content>
         <Divider />
@@ -51,15 +52,12 @@ const DeleteAuthor = ({
             <Form.Field color="red" control={Button}>
               Remove Author
             </Form.Field>
-            <Form.Field color="grey" control={Button} onClick={showDelete}>
-              Done
-            </Form.Field>
           </Form.Group>
         </Form>
         <Divider />
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={showDelete}>
+        <Button value={2} name="back" color="red" onClick={showDeleteAction}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>
@@ -75,7 +73,8 @@ export default () => (
         submit={actions.authorDelete}
         authorOptions={data.authorOptions}
         deleteAuthorWarning={data.deleteAuthorWarning}
-        showDelete={actions.showAuthorDelete}
+        showDelete={data.showAuthorDelete}
+        showDeleteAction={actions.showAuthorDelete}
       />
     )}
   </AppContext.Consumer>
