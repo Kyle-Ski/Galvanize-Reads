@@ -8,11 +8,6 @@ const authorsUrl = "https://galvanize-reads-ski.herokuapp.com/authors/"
 let book_authorsJoinUrl =
   "https://galvanize-reads-ski.herokuapp.com/book_authors/"
 
-// const booksWithAuthorsUrl = "http://localhost:3222/book_authors/books"
-// const booksUrl = "http://localhost:3222/books/"
-// const authorsUrl = "http://localhost:3222/authors/"
-// let book_authorsJoinUrl = "http://localhost:3222/book_authors/"
-
 class AppContextProvider extends React.Component {
   state = {
     open: false,
@@ -254,65 +249,56 @@ class AppContextProvider extends React.Component {
     if (!data.title || !data.genre || !data.description || !data.coverURL) {
       return this.setState({ warning: "warning" })
     } else {
-      return (
-        fetch(booksUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json; charset=utf-8"
-          },
-          body: JSON.stringify(data)
+      return fetch(booksUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(this.checkError)
+        .then(bookResult => {
+          const bookId = bookResult.book.id
+          const bookAuthorData = {
+            book_id: bookId,
+            author_id: authors
+          }
+          return fetch(book_authorsJoinUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: JSON.stringify(bookAuthorData)
+          })
+            .then(res => res.json())
+            .then(data => {
+              console.log("posted to join..")
+              return { data }
+            })
         })
-          .then(res => res.json())
-          // .then(this.checkError)
-          //NEED TO ADD ROUTE TO POST TO JOIN TABLE
-          .then(bookResult => {
-            const bookId = bookResult.book.id
-            // return authors.map(author => {
-            const bookAuthorData = {
-              book_id: bookId,
-              author_id: authors
-            }
-            return (
-              fetch(book_authorsJoinUrl, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json; charset=utf-8"
-                },
-                body: JSON.stringify(bookAuthorData)
+        .then(res => {
+          if (res.error) {
+            this.setState({ warning: "warning" })
+          } else {
+            return this.fetchBooks().then(res => {
+              this.setState({
+                bookTitle: "",
+                bookGenre: "",
+                bookDescription: "",
+                bookUrl: "",
+                warning: "success"
               })
-                .then(res => res.json())
-                // .then(this.checkError)
-                .then(data => {
-                  console.log("posted to join..")
-                  return { data }
-                })
-            )
-            // })
-          })
-          // .then(pending => Promise.all(pending))
-          .then(res => {
-            if (res.error) {
-              this.setState({ warning: "warning" })
-            } else {
-              return this.fetchBooks().then(res => {
-                this.setState({
-                  bookTitle: "",
-                  bookGenre: "",
-                  bookDescription: "",
-                  bookUrl: "",
-                  warning: "success"
-                })
-                setTimeout(() => this.setState({ warning: null }), 2000)
-                return res
-              })
-            }
-          })
-          .then(this.structureDropdown)
-          .then(this.fetchBooks)
-          .catch(error => {
-            this.setState({ warning: "warning", error })
-          })
-      )
+              setTimeout(() => this.setState({ warning: null }), 2000)
+              return res
+            })
+          }
+        })
+        .then(this.structureDropdown)
+        .then(this.fetchBooks)
+        .catch(error => {
+          this.setState({ warning: "warning", error })
+        })
     }
   }
 
