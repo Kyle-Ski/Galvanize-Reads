@@ -7,18 +7,18 @@
 
 ## Background
 
-**Galvanize Reads** is a book catalog service that stores a list of recommended technology books. You are building a web app for them. It should allow you to:
+**Galvanize Reads** is a book catalog service that stores a list of recommended technology books. I built a web app to showcase the books and their authors. It allows the user to:
 
 - List books and authors
 - Add books and authors
 - Modify books and authors
 - Remove books and authors
 
-There are some additional features, such as search, that are nice-to-haves, but a lower priority than the core features. The folks at Galvanize Reads have provided you some sample data from their existing registry that you can use for development.
+There are some additional features, such as search, that are nice-to-haves, but a lower priority than the core features. The sample data from the existing registry that I used for development follows:
 
-## Import stories into Pivotal Tracker
+## Imported stories into Pivotal Tracker
 
-Import this [CSV](https://s3-us-west-2.amazonaws.com/assessment-images/galvanize_reads/galvanize_reads_20160104_0559.csv) into a new project in Pivotal Tracker to get the requirements for this story. They are prioritized. You may find it useful to size the stories before you begin.
+I Imported this [CSV](https://s3-us-west-2.amazonaws.com/assessment-images/galvanize_reads/galvanize_reads_20160104_0559.csv) into a new project in Pivotal Tracker to get the requirements for the story. They are prioritized.
 
 ```
 Id,Title,Labels,Iteration,Iteration Start,Iteration End,Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Description,URL,Owned By,Task,Task Status,Task,Task Status,Task,Task Status,Task,Task Status,Task,Task Status,Task,Task Status,Task,Task Status
@@ -49,7 +49,7 @@ Id,Title,Labels,Iteration,Iteration Start,Iteration End,Type,Estimate,Current St
 
 ## Sample Data
 
-Your app should accomodate and make use of all of the sample data, which can be downloaded [here](https://s3-us-west-2.amazonaws.com/assessment-images/galvanize_reads/galvanize_reads_sample_data.csv). Note that the data is denormalized, and will additionally require some transformation to get into the database.
+My app accomodates and makes use of all of the sample data, which can be downloaded [here](https://s3-us-west-2.amazonaws.com/assessment-images/galvanize_reads/galvanize_reads_sample_data.csv). *Note that the data is denormalized, and will additionally require some transformation to get into a database.*
 
 ```
 ID,Book Title,Book Genre,Book Description,Book Cover URL,Author 1 First Name,Author 1 Last Name,Author 1 Biography,Author 1 Portrait URL,Author 2 First Name,Author 2 Last Name,Author 2 Biography,Author 2 Portrait URL,Author 3 First Name,Author 3 Last Name,Author 3 Biography,Author 3 Portrait URL
@@ -61,20 +61,10 @@ ID,Book Title,Book Genre,Book Description,Book Cover URL,Author 1 First Name,Aut
 6,You Don't Know JS: Async & Performance,JavaScript,"No matter how much experience you have with JavaScript, odds are you don’t fully understand the language. As part of the ""You Don’t Know JS"" series, this concise yet in-depth guide focuses on new asynchronous features and performance techniques—including Promises, generators, and Web Workers—that let you create sophisticated single-page web applications and escape callback hell in the process.",https://covers.oreillystatic.com/images/0636920033752/lrg.jpg,Kyle,Simpson,"Kyle Simpson is an Open Web Evangelist who's passionate about all things JavaScript. He's an author, workshop trainer, tech speaker, and OSS contributor/leader.",http://cdn.oreillystatic.com/images/people/154/kyle_simpson.jpg,,,,,,,,
 ```
 
-## Notes
+## Additional Possibilities for the Project
 
-- You can use a styling library if you'd like
-- You can use server-side templating or AJAX/RESTful services. There are trade-offs with each.
-- You can use a raw database driver, a query builder, or an ORM for your database connection. A query builder, such as Knex, is recommended.
-- Use feature-branch workflows. You should end up with one commit for each feature.
-- Deploy your work
-
-## How to Submit Your Assessment
-
-Fork/clone [this repo](https://github.com/gSchool/galvanize-reads).
-Add a README to your project that has:
-
-- A link to your deployed site
-- Link to your tracker project
-- Links to any repos you used with updated code
-- A data model of the final data model of the project
+- I could have used a styling library (I chose [Semantic UI](https://react.semantic-ui.com/) )
+- I used AJAX/RESTful services
+- I used [Knex.js](https://knexjs.org/) as my query builder for my PostgreSQL database.
+- I used feature-branch workflows. 
+- I consistantly deploied my work
