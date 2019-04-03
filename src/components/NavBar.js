@@ -21,8 +21,8 @@ const NavBar = ({
   modalOpen
 }) => {
   return (
-    <Segment inverted>
-      <Menu inverted pointing secondary stackable>
+    <Segment>
+      <Menu pointing secondary stackable>
         <Image style={style.image} src="/G.png" />
         <Header as="h1" inverted color="olive">
           Galvanize Reads

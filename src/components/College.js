@@ -25,12 +25,12 @@ const College = ({ authors, isTeacher, fetchBooks, fetchAuthors }) => (
 
 export default () => (
   <AppContext.Consumer>
-    {({ data }) => (
+    {({ data, actions }) => (
       <College
         authors={data.authors}
         isTeacher={data.isTeacher}
-        fetchBooks={data.fetchBooks}
-        fetchAuthors={data.fetchAuthors}
+        fetchBooks={actions.fetchBooks}
+        fetchAuthors={actions.fetchAuthors}
       />
     )}
   </AppContext.Consumer>
