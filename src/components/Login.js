@@ -22,7 +22,7 @@ const LoginModal = ({ handleClose, modalOpen }) => {
         </Form>
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={handleClose}>
+        <Button name="back" color="red" onClick={handleClose}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>

@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
 import {
   Card,
   Image,
@@ -7,7 +7,6 @@ import {
   Input,
   TextArea
 } from "semantic-ui-react"
-import BookAuthors from "./BookAuthors"
 const style = {
   card: {
     width: "75vw"
@@ -23,35 +22,36 @@ const style = {
   }
 }
 
-class Book extends Component {
-  state = {
-    bookId: false,
-    bookTitle: this.props.title,
-    bookDescription: this.props.description,
-    bookGenre: this.props.genre
-  }
+const Book = ({
+  title,
+  description,
+  genre,
+  authors,
+  fetchBooks,
+  isTeacher,
+  img,
+  thisKey,
+  authorClick
+}) => {
+  const [bookId, setBookId] = useState(false)
+  const [bookTitle, setBookTitle] = useState(title)
+  const [bookDescription, setBookDescription] = useState(description)
+  const [bookGenre, setBookGenre] = useState(genre)
 
-  authors = () => {
-    this.props.authors.map(author => `${author.firstName} ${author.lastName}`)
-  }
+  const editButton = () => setBookId(!bookId)
 
-  editButton = () => {
-    console.log(this.props.title, "id", this.props)
-    this.setState({ bookId: !this.state.bookId })
-  }
-
-  submitButton = () => {
+  const submitButton = () => {
     const data = {
-      title: this.state.bookTitle,
-      genre: this.state.bookGenre,
-      description: this.state.bookDescription
+      title: bookTitle,
+      genre: bookGenre,
+      description: bookDescription
     }
     if (data.title === "") {
       data.title = this.props.title
     } else if (data.genre === "") {
       data.genre = this.props.genre
     } else if (data.description === "") {
-      data.description = this.props.description
+      data.description = description
     }
     fetch(`https://galvanize-reads-ski.herokuapp.com/books/${this.props.id}`, {
       method: "PUT",
@@ -66,97 +66,96 @@ class Book extends Component {
         if (res.error) {
           return alert(res.error)
         } else {
-          return alert(`${this.props.title} was successfully edited!`)
+          return alert(`${title} was successfully edited!`)
         }
       })
-      .then(() => this.setState({ bookId: !this.state.bookId }))
-      .then(this.props.fetchBooks)
+      .then(() => setBookId(!bookId))
+      .then(fetchBooks)
       .catch(err => console.error(err))
   }
 
-  render() {
-    const { isTeacher } = this.props
-    return (
-      <Card style={style.card}>
-        <Card.Content>
-          <Card.Header>
-            {this.state.bookId ? (
-              <Input
-                placeholder={this.props.title}
-                value={this.state.bookTitle}
-                onChange={e => this.setState({ bookTitle: e.target.value })}
-              />
-            ) : (
-              this.props.title
-            )}
-          </Card.Header>
-          <Divider />
-          <Image floated="left" size="small" src={this.props.img} />
-          <Card.Content>
-            {this.state.bookId ? (
-              <TextArea
-                style={style.textArea}
-                onChange={e =>
-                  this.setState({ bookDescription: e.target.value })
-                }
-                value={this.state.bookDescription}
-                placeholder={this.props.description}
-              />
-            ) : (
-              <Card.Description floated="right">
-                {this.props.description}
-              </Card.Description>
-            )}
-            <Card.Meta style={style.authors}>
-              Genre:{" "}
-              {this.state.bookId ? (
-                <Input
-                  onChange={e => this.setState({ bookGenre: e.target.value })}
-                  value={this.state.bookGenre}
-                  placeholder={this.props.genre}
-                />
-              ) : (
-                this.props.genre
-              )}
-            </Card.Meta>
-            Author(s) : <br />
-            <BookAuthors
-              authors={this.props.authors}
-              key={this.props.thisKey}
+  return (
+    <Card style={style.card}>
+      <Card.Content>
+        <Card.Header>
+          {bookId ? (
+            <Input
+              placeholder={title}
+              value={bookTitle}
+              onChange={e => setBookTitle(e.target.value)}
             />
-          </Card.Content>
-        </Card.Content>
-        <Card.Content>
-          {isTeacher ? (
-            ""
           ) : (
-            <div className="ui two buttons">
+            title
+          )}
+        </Card.Header>
+        <Divider />
+        <Image floated="left" size="small" src={img} />
+        <Card.Content>
+          {bookId ? (
+            <TextArea
+              style={style.textArea}
+              onChange={e => setBookDescription(e.target.value)}
+              value={bookDescription}
+              placeholder={description}
+            />
+          ) : (
+            <Card.Description floated="right">{description}</Card.Description>
+          )}
+          <Card.Meta style={style.authors}>
+            Genre:{" "}
+            {bookId ? (
+              <Input
+                onChange={e => setBookGenre(e.target.value)}
+                value={bookGenre}
+                placeholder={genre}
+              />
+            ) : (
+              genre
+            )}
+          </Card.Meta>
+          Author(s) : <br />
+          {authors.map((author, i) => (
+            <button
+              className="author_link"
+              key={i}
+              onClick={() => authorClick(author.author_id)}
+            >
+              {author.firstName} {author.lastName}
+              <br />
+            </button>
+          ))}
+        </Card.Content>
+      </Card.Content>
+      <Card.Content>
+        {isTeacher ? (
+          ""
+        ) : (
+          <div className="ui two buttons">
+            <Button
+              style={style.button}
+              basic
+              color="blue"
+              onClick={editButton}
+            >
+              Edit
+            </Button>
+            {bookId ? (
               <Button
                 style={style.button}
                 basic
-                color="blue"
-                onClick={this.editButton}
+                color="green"
+                onClick={submitButton}
               >
-                Edit
+                Submit
               </Button>
-              {this.state.bookId ? (
-                <Button
-                  style={style.button}
-                  basic
-                  color="green"
-                  onClick={this.submitButton}
-                >
-                  Submit
-                </Button>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
-        </Card.Content>
-      </Card>
-    )
-  }
+            ) : (
+              ""
+            )}
+          </div>
+        )}
+      </Card.Content>
+    </Card>
+  )
 }
 
 export default Book

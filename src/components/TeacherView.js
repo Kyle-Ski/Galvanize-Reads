@@ -26,7 +26,6 @@ const TeacherView = ({
     </div>
   )
 }
-// }
 
 export default () => (
   <AppContext.Consumer>

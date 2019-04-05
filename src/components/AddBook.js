@@ -66,11 +66,11 @@ const AddBook = ({
             {" "}
             + Another Author
           </Form.Field>
-          {newAuthors.map((author, idx) => (
-            <div key={idx}>
+          {newAuthors.map((author, index) => (
+            <div key={index}>
               <Form.Field
                 control={Dropdown}
-                onChange={handleUserAuthorAdd(idx)}
+                onChange={handleUserAuthorAdd(index)}
                 search
                 selection
                 options={dropdownOptions}
@@ -80,7 +80,7 @@ const AddBook = ({
               <Form.Field
                 control={Button}
                 color="red"
-                onClick={handleRemoveAuthor(idx)}
+                onClick={handleRemoveAuthor(index)}
               >
                 - Author
               </Form.Field>

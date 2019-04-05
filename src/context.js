@@ -23,7 +23,7 @@ class AppContextProvider extends React.Component {
     bookToDelete: "",
     deleteWarning: null,
     searchedBook: "",
-    seardchedAuthor: "",
+    searchedAuthor: "",
     switchViews: true,
     first: "",
     last: "",
@@ -150,7 +150,7 @@ class AppContextProvider extends React.Component {
     return fetch(authorsUrl)
       .then(res => res.json())
       .then(data =>
-        this.setState({ authors: data.authors, seardchedAuthor: data.authors })
+        this.setState({ authors: data.authors, searchedAuthor: data.authors })
       )
   }
 
@@ -220,6 +220,11 @@ class AppContextProvider extends React.Component {
         return this.fetchBooks().then(() =>
           this.setState({ switchViews: true, activeItem: name })
         )
+      case "home":
+        return this.setState({
+          switchViews: true,
+          searchedAuthor: this.state.authors
+        })
       default:
         alert("Wait, what did you click on?")
         break
@@ -232,6 +237,18 @@ class AppContextProvider extends React.Component {
     )
     if (chosenBook !== undefined) {
       this.setState({ searchedBook: chosenBook })
+    } else {
+      return
+    }
+  }
+
+  searchAuthors = authorId => {
+    const chosenAuthor = this.state.authors.filter(
+      author => author.id === authorId
+    )
+    if (chosenAuthor !== undefined) {
+      this.setState({ searchedAuthor: chosenAuthor })
+      this.switchThatView(7, { name: "Authors" })
     } else {
       return
     }
@@ -420,7 +437,8 @@ class AppContextProvider extends React.Component {
             showDelete: this.showDelete,
             showAuthorDelete: this.showAuthorDelete,
             handleOpen: this.handleOpen,
-            handleClose: this.handleClose
+            handleClose: this.handleClose,
+            searchAuthors: this.searchAuthors
           }
         }}
       >

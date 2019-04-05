@@ -3,7 +3,7 @@ import Book from "./Book"
 import { Card } from "semantic-ui-react"
 import AppContext from "../context"
 
-const Library = ({ books, isTeacher, fetchBooks }) => (
+const Library = ({ books, isTeacher, fetchBooks, authorClick }) => (
   <Card.Group centered>
     {books.map((book, i) => {
       return (
@@ -18,6 +18,7 @@ const Library = ({ books, isTeacher, fetchBooks }) => (
           id={book.id}
           isTeacher={isTeacher}
           fetchBooks={fetchBooks}
+          authorClick={authorClick}
         />
       )
     })}
@@ -31,6 +32,7 @@ export default () => (
         books={data.searchedBook}
         isTeacher={data.isTeacher}
         fetchBooks={actions.fetchBooks}
+        authorClick={actions.searchAuthors}
       />
     )}
   </AppContext.Consumer>
