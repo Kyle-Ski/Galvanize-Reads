@@ -66,9 +66,12 @@ class AppContextProvider extends React.Component {
   }
 
   showAdd = () => this.setState({ showAdd: !this.state.showAdd })
+
   showDelete = () => this.setState({ showDelete: !this.state.showDelete })
+
   showAuthorAdd = () =>
     this.setState({ showAuthorAdd: !this.state.showAuthorAdd })
+
   showAuthorDelete = () =>
     this.setState({ showAuthorDelete: !this.state.showAuthorDelete })
 
@@ -290,7 +293,6 @@ class AppContextProvider extends React.Component {
           })
             .then(res => res.json())
             .then(data => {
-              console.log("posted to join..")
               return { data }
             })
         })
