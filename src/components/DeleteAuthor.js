@@ -57,7 +57,7 @@ const DeleteAuthor = ({
         <Divider />
       </Modal.Content>
       <Modal.Actions>
-        <Button value={2} name="back" color="red" onClick={showDeleteAction}>
+        <Button name="back" color="red" onClick={showDeleteAction}>
           <Icon name="arrow alternate circle left outline" /> Back
         </Button>
       </Modal.Actions>

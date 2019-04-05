@@ -13,11 +13,9 @@ const style = {
 
 const NavBar = ({
   activeItem,
-  handleItemClick,
   dropdownOptions,
   searchBooks,
   switchThatView,
-  teacherLogin,
   modalOpen
 }) => {
   return (
@@ -31,7 +29,7 @@ const NavBar = ({
           <Menu.Item
             name="home"
             active={activeItem === "home"}
-            onClick={handleItemClick}
+            onClick={switchThatView}
             color="olive"
           />
           <Menu.Item
@@ -74,7 +72,6 @@ export default () => (
       <NavBar
         teacherLogin={actions.teacherLogin}
         activeItem={data.activeItem}
-        handleItemClick={actions.handleItemClick}
         dropdownOptions={data.dropdownOptions}
         searchBooks={actions.searchBooks}
         switchThatView={actions.switchThatView}

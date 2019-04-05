@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState } from "react"
 import {
   Card,
   Image,
@@ -22,136 +22,128 @@ const style = {
   }
 }
 
-class Author extends Component {
-  state = {
-    edit: false,
-    authorFirstName: this.props.firstName,
-    authorSecondName: this.props.lastName,
-    authorSummary: this.props.biography
-  }
+const Author = ({
+  firstName,
+  lastName,
+  biography,
+  genre,
+  description,
+  title,
+  id,
+  fetchAuthors,
+  isTeacher,
+  img
+}) => {
+  const [edit, setEdit] = useState(false)
+  const [authorFirstName, setFirst] = useState(firstName)
+  const [authorSecondName, setSecond] = useState(lastName)
+  const [authorSummary, setSummary] = useState(biography)
+  const editButton = () => setEdit(!edit)
 
-  editButton = () => {
-    this.setState({ edit: !this.state.edit })
-  }
-
-  submitButton = () => {
+  const submitButton = () => {
     const data = {
-      firstName: this.state.authorFirstName,
-      lastName: this.state.authorSecondName,
-      biography: this.state.authorSummary
+      firstName: authorFirstName,
+      lastName: authorSecondName,
+      biography: authorSummary
     }
     if (data.title === "") {
-      data.title = this.props.title
+      data.title = title
     } else if (data.genre === "") {
-      data.genre = this.props.genre
+      data.genre = genre
     } else if (data.description === "") {
-      data.description = this.props.description
+      data.description = description
     }
-    fetch(
-      `https://galvanize-reads-ski.herokuapp.com/authors/${this.props.id}`,
-      {
-        method: "PUT",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8"
-        },
-        body: JSON.stringify(data)
-      }
-    )
+    fetch(`https://galvanize-reads-ski.herokuapp.com/authors/${id}`, {
+      method: "PUT",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify(data)
+    })
       .then(res => res.json())
       .then(res => {
         if (res.error) {
           return alert(res.error)
         } else {
-          return alert(
-            `${this.props.firstName} ${
-              this.props.lastName
-            } was successfully edited!`
-          )
+          return alert(`${firstName} ${lastName} was successfully edited!`)
         }
       })
-      .then(() => this.setState({ edit: !this.state.edit }))
-      .then(this.props.fetchAuthors)
+      .then(() => setEdit(!edit))
+      .then(fetchAuthors)
       .catch(err => console.error(err))
   }
 
-  render() {
-    const { isTeacher } = this.props
-    return (
-      <Card style={style.card}>
-        <Card.Content>
-          <Card.Header>
-            {this.state.edit ? (
-              <div>
-                <Input
-                  placeholder={this.props.firstName}
-                  value={this.state.authorFirstName}
-                  onChange={e =>
-                    this.setState({ authorFirstName: e.target.value })
-                  }
-                />{" "}
-                <Input
-                  placeholder={this.props.lastName}
-                  value={this.state.authorSecondName}
-                  onChange={e =>
-                    this.setState({ authorSecondName: e.target.value })
-                  }
-                />{" "}
-              </div>
-            ) : (
-              `${this.props.firstName} ${this.props.lastName}`
-            )}
-          </Card.Header>
-          <Divider />
-          <Image floated="left" size="medium" src={this.props.img} />
-          <Card.Content>
-            {this.state.edit ? (
-              <TextArea
-                style={style.textArea}
-                onChange={e => this.setState({ authorSummary: e.target.value })}
-                value={this.state.authorSummary}
-                placeholder={this.props.biography}
-              />
-            ) : (
-              <Card.Description floated="right">
-                <strong>About:</strong> <br />
-                <br /> {this.props.biography}
-              </Card.Description>
-            )}
-            <Card.Meta style={style.authors} />
-          </Card.Content>
-        </Card.Content>
-        <Card.Content>
-          {isTeacher ? (
-            ""
+  return (
+    <Card style={style.card}>
+      <Card.Content>
+        <Card.Header>
+          {edit ? (
+            <div>
+              <Input
+                placeholder={firstName}
+                value={authorFirstName}
+                onChange={e => setFirst(e.target.value)}
+              />{" "}
+              <Input
+                placeholder={lastName}
+                value={authorSecondName}
+                onChange={e => setSecond(e.target.value)}
+              />{" "}
+            </div>
           ) : (
-            <div className="ui two buttons">
+            `${firstName} ${lastName}`
+          )}
+        </Card.Header>
+        <Divider />
+        <Image floated="left" size="medium" src={img} />
+        <Card.Content>
+          {edit ? (
+            <TextArea
+              style={style.textArea}
+              onChange={e => setSummary(e.target.value)}
+              value={authorSummary}
+              placeholder={biography}
+            />
+          ) : (
+            <Card.Description floated="right">
+              <strong>About:</strong> <br />
+              <br /> {biography}
+            </Card.Description>
+          )}
+          <Card.Meta style={style.authors} />
+        </Card.Content>
+      </Card.Content>
+      <Card.Content>
+        {isTeacher ? (
+          ""
+        ) : (
+          <div className="ui two buttons">
+            <Button
+              style={style.button}
+              basic
+              color="blue"
+              onClick={editButton}
+            >
+              Edit
+            </Button>
+            {edit ? (
               <Button
                 style={style.button}
                 basic
-                color="blue"
-                onClick={this.editButton}
+                color="green"
+                onClick={submitButton}
               >
-                Edit
+                Submit
               </Button>
-              {this.state.edit ? (
-                <Button
-                  style={style.button}
-                  basic
-                  color="green"
-                  onClick={this.submitButton}
-                >
-                  Submit
-                </Button>
-              ) : (
-                ""
-              )}
-            </div>
-          )}
-        </Card.Content>
-      </Card>
-    )
-  }
+            ) : (
+              ""
+            )}
+          </div>
+        )}
+      </Card.Content>
+    </Card>
+  )
 }
 
 export default Author

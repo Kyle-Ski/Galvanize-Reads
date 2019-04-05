@@ -27,7 +27,7 @@ export default () => (
   <AppContext.Consumer>
     {({ data, actions }) => (
       <College
-        authors={data.authors}
+        authors={data.searchedAuthor}
         isTeacher={data.isTeacher}
         fetchBooks={actions.fetchBooks}
         fetchAuthors={actions.fetchAuthors}
