@@ -7,6 +7,8 @@ import {
   Input,
   TextArea
 } from "semantic-ui-react"
+
+const authorPutRoute = `https://galvanize-reads-ski.herokuapp.com/authors/`
 const style = {
   card: {
     width: "75vw"
@@ -53,7 +55,7 @@ const Author = ({
     } else if (data.description === "") {
       data.description = description
     }
-    fetch(`https://galvanize-reads-ski.herokuapp.com/authors/${id}`, {
+    fetch(authorPutRoute + id, {
       method: "PUT",
       mode: "cors",
       headers: {

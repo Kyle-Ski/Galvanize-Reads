@@ -7,6 +7,8 @@ import {
   Input,
   TextArea
 } from "semantic-ui-react"
+
+const bookPutUrl = `https://galvanize-reads-ski.herokuapp.com/books/`
 const style = {
   card: {
     width: "75vw"
@@ -30,8 +32,8 @@ const Book = ({
   fetchBooks,
   isTeacher,
   img,
-  thisKey,
-  authorClick
+  authorClick,
+  id
 }) => {
   const [bookId, setBookId] = useState(false)
   const [bookTitle, setBookTitle] = useState(title)
@@ -47,13 +49,13 @@ const Book = ({
       description: bookDescription
     }
     if (data.title === "") {
-      data.title = this.props.title
+      data.title = title
     } else if (data.genre === "") {
-      data.genre = this.props.genre
+      data.genre = genre
     } else if (data.description === "") {
       data.description = description
     }
-    fetch(`https://galvanize-reads-ski.herokuapp.com/books/${this.props.id}`, {
+    fetch(bookPutUrl + id, {
       method: "PUT",
       mode: "cors",
       headers: {
